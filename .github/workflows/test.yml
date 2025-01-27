@@ -6,9 +6,6 @@ on:
     branches:
       - main
       - develop
-  push:
-    branches:
-      - main
 
 permissions:
   checks: write
@@ -26,7 +23,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'latest'
+          node-version: "latest"
 
       - name: Install dependencies
         run: npm install
@@ -34,5 +31,5 @@ jobs:
       - name: Test coverage
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            test-script: npx jest --coverage --silent --ci --testLocationInResults --json --outputFile="report.json" --passWithNoTests
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          test-script: npx jest --coverage --silent --ci --testLocationInResults --json --outputFile="report.json" --passWithNoTests
