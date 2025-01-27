@@ -1,6 +1,10 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 
+/**
+ * Home component
+ * @returns The rendered component
+ */
 export default function Home() {
   return (
     <div className={styles.page}>
