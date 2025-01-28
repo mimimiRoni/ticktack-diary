@@ -16,7 +16,8 @@ const config: Config = {
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
-
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
 
