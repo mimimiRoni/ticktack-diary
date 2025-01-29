@@ -15,8 +15,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const auth = getAuth(app);
 
 if (process.env.NODE_ENV === "development") {
-  connectAuthEmulator(auth, "http://localhost:9099"); // エミュレーターのポートを指定
+  connectAuthEmulator(auth, "http://localhost:9099"); // Authのエミュレーターのポートを指定
 }
