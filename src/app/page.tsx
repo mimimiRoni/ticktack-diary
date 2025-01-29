@@ -1,15 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
-import { auth } from "../lib/firebaseConfig";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 
 /**
  * Home component
  * @returns The rendered component
  */
 export default function Home() {
+  const auth = getAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
