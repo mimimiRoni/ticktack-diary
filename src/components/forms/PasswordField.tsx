@@ -35,7 +35,7 @@ const PasswordField = ({ name, label }: PasswordFieldProps) => {
       <label>
         {visible ? "パスワードを表示しています" : "パスワードを表示する"}
       </label>
-      {errors[name] && <p>errors[name]?.message?.toString()</p>}
+      {errors[name] && <p>{errors[name]?.message?.toString()}</p>}
     </div>
   );
 };
