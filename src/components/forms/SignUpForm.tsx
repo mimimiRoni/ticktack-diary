@@ -1,10 +1,10 @@
 "use client";
 
-import { signUpSchema } from "@/lib/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, useForm } from "react-hook-form";
 import ValidateInputField from "./ValidateInputField";
 import PasswordField from "./PasswordField";
+import { signUpSchema } from "../../lib/validation";
 
 const SignUpForm = () => {
   const methods = useForm({

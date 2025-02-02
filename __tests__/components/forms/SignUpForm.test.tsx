@@ -1,11 +1,13 @@
 import SignUpForm from "@/components/forms/SignUpForm";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-test("should render error if invalid input", () => {
+test("should render error if invalid input", async () => {
   render(<SignUpForm />);
 
-  fireEvent.submit(screen.getByRole("button"));
+  fireEvent.click(screen.getByRole("button"));
 
-  expect(screen.getByText("メールアドレスは必須です"));
-  expect(screen.getByText("パスワードは必須です"));
+  await waitFor(() => {
+    expect(screen.getByText("メールアドレスを入力してください"));
+    expect(screen.getByText("パスワードを入力してください"));
+  });
 });
