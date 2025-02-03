@@ -23,6 +23,7 @@ const PasswordField = ({ name, label }: PasswordFieldProps) => {
         name={name}
         type={visible ? "text" : "password"}
         role="textbox"
+        autoComplete="current-password"
       />
       <input
         type="checkbox"

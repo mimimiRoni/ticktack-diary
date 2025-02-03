@@ -18,7 +18,7 @@ const SignUpForm = () => {
           name="email"
           label="メールアドレス"
           type="email"
-          autocomplete="email"
+          autocomplete="username"
         />
         <PasswordField name="password" label="パスワード" />
         <button type="submit">Sign up</button>
