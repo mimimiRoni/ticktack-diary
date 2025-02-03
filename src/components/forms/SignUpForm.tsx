@@ -13,11 +13,7 @@ const SignUpForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <form
-        onSubmit={methods.handleSubmit(() => {
-          console.log("call handleSubmit");
-        })}
-      >
+      <form onSubmit={methods.handleSubmit(() => {})}>
         <ValidateInputField
           name="email"
           label="メールアドレス"
