@@ -7,11 +7,11 @@ export const emailSchema = yup
 
 export const passwordSchema = yup
   .string()
+  .required("パスワードを入力してください")
   .min(8, "8文字以上必要です")
   .matches(/[A-Z]/, "大文字が必要です")
   .matches(/[a-z]/, "小文字が必要です")
-  .matches(/[0-9]/, "数字が必要です")
-  .required("パスワードを入力してください");
+  .matches(/[0-9]/, "数字が必要です");
 
 export const signUpSchema = yup.object({
   email: emailSchema,

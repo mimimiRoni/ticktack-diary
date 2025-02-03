@@ -4,22 +4,22 @@ import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 type PasswordFieldProps = {
-  name: string;
   label: string;
 };
 
-const PasswordField = ({ name, label }: PasswordFieldProps) => {
+const PasswordField = ({ label }: PasswordFieldProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
   const [visible, setVisible] = useState(false);
+  const name = "password";
 
   return (
     <div>
       <label htmlFor={name}>{label}</label>
       <input
-        {...register}
+        {...register(name)}
         name={name}
         id={name}
         type={visible ? "text" : "password"}
@@ -39,7 +39,7 @@ const PasswordField = ({ name, label }: PasswordFieldProps) => {
       </label>
       {errors[name] && (
         <p role="alert" aria-label="password-input-error">
-          {errors[name]?.message?.toString()}
+          {errors[name].message?.toString()}
         </p>
       )}
     </div>
