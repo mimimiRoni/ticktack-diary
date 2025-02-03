@@ -26,7 +26,7 @@ const eslintConfig = [
     },
     rules: {
       "prettier/prettier": "error",
-      "no-console": "warn",
+      "no-console": "error",
       "no-constructor-return": "error",
       "no-duplicate-imports": ["error", { includeExports: true }],
       "class-methods-use-this": "error",
