@@ -1,26 +1,30 @@
+"use client";
+
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 type PasswordFieldProps = {
-  name: string;
   label: string;
 };
 
-const PasswordField = ({ name, label }: PasswordFieldProps) => {
+const PasswordField = ({ label }: PasswordFieldProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
   const [visible, setVisible] = useState(false);
+  const name = "password";
 
   return (
     <div>
-      <label>{label}</label>
+      <label htmlFor={name}>{label}</label>
       <input
-        {...register}
+        {...register(name)}
         name={name}
+        id={name}
         type={visible ? "text" : "password"}
         role="textbox"
+        autoComplete="current-password"
       />
       <input
         type="checkbox"
@@ -33,7 +37,11 @@ const PasswordField = ({ name, label }: PasswordFieldProps) => {
       <label>
         {visible ? "パスワードを表示しています" : "パスワードを表示する"}
       </label>
-      {errors[name] && <p>errors[name]?.message?.toString()</p>}
+      {errors[name] && (
+        <p role="alert" aria-label="password-input-error">
+          {errors[name].message?.toString()}
+        </p>
+      )}
     </div>
   );
 };

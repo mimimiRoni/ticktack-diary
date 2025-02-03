@@ -1,4 +1,4 @@
-import styles from "./page.module.css";
+import SignUpForm from "@/components/forms/SignUpForm";
 
 /**
  * Home component
@@ -6,8 +6,11 @@ import styles from "./page.module.css";
  */
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <h1>お試し中</h1>
+    <div>
+      <h1>ログイン機能作成お試し中……</h1>
+      <h2>ユーザー登録</h2>
+      <h3>メールアドレスとパスワードで登録</h3>
+      <SignUpForm />
     </div>
   );
 }

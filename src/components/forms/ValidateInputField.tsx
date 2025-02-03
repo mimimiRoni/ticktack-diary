@@ -1,3 +1,5 @@
+"use client";
+
 import { useFormContext } from "react-hook-form";
 
 type ValidateInputFieldProps = {
@@ -20,14 +22,19 @@ const ValidateInputField = ({
 
   return (
     <>
-      <label>{label}</label>
+      <label htmlFor={name}>{label}</label>
       <input
         {...register(name)}
+        id={name}
         type={type}
         autoComplete={autocomplete}
         role="textbox"
       ></input>
-      {errors[name] && <p>{errors[name].message?.toString()}</p>}
+      {errors[name] && (
+        <p role="alert" aria-label={name + "-input-error"}>
+          {errors[name].message?.toString()}
+        </p>
+      )}
     </>
   );
 };
