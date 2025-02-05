@@ -5,15 +5,22 @@ import { FormProvider, useForm } from "react-hook-form";
 import ValidateInputField from "./ValidateInputField";
 import PasswordField from "./PasswordField";
 import { signUpSchema } from "../../lib/validation";
+import { useRouter } from "next/navigation";
 
 const SignUpForm = () => {
   const methods = useForm({
     resolver: yupResolver(signUpSchema),
   });
 
+  const router = useRouter();
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(() => {})}>
+      <form
+        onSubmit={methods.handleSubmit(() => {
+          router.push("/verify-email");
+        })}
+      >
         <ValidateInputField
           name="email"
           label="メールアドレス"

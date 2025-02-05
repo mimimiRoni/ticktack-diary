@@ -1,3 +1,4 @@
+import SignUpForm from "@/components/forms/SignUpForm";
 import Link from "next/link";
 
 /**
@@ -14,6 +15,9 @@ export default function Register() {
       <button>
         <Link href="/verify-email">メール認証ページへ</Link>
       </button>
+      <div>
+        <SignUpForm />
+      </div>
     </div>
   );
 }
