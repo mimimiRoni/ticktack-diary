@@ -30,7 +30,7 @@ const config: Config = {
   // A list of reporter names that Jest uses when writing coverage reports
   coverageReporters: ["text"],
 
-  coveragePathIgnorePatterns: ["/node_modules/", "firebaseConfig.ts"],
+  coveragePathIgnorePatterns: ["/node_modules/", "/src/configs/"],
 };
 
 export default createJestConfig(config);
