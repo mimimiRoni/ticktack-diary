@@ -1,4 +1,4 @@
-import SignUpForm from "@/components/forms/SignUpForm";
+import Link from "next/link";
 
 /**
  * Home component
@@ -7,10 +7,13 @@ import SignUpForm from "@/components/forms/SignUpForm";
 export default function Home() {
   return (
     <div>
-      <h1>ログイン機能作成お試し中……</h1>
-      <h2>ユーザー登録</h2>
-      <h3>メールアドレスとパスワードで登録</h3>
-      <SignUpForm />
+      <h1>TickTack-Diary作成中……（トップページ）</h1>
+      <button>
+        <Link href="/register">アカウント登録</Link>
+      </button>
+      <button>
+        <Link href="/login">ログイン</Link>
+      </button>
     </div>
   );
 }
