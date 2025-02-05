@@ -1,6 +1,14 @@
 import SignUpForm from "@/components/forms/SignUpForm";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
+jest.mock("next/navigation", () => ({
+  useRouter() {
+    return {
+      push: () => null,
+    };
+  },
+}));
+
 describe("SignUpForm", () => {
   test("should render error if invalid input", async () => {
     render(<SignUpForm />);
