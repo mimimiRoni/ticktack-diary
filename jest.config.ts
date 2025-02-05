@@ -16,8 +16,8 @@ const config: Config = {
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
-  transformIgnorePatterns: ['<rootDir>/node_modules/'],
-  
+  transformIgnorePatterns: ["<rootDir>/node_modules/"],
+
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
 
@@ -30,29 +30,7 @@ const config: Config = {
   // A list of reporter names that Jest uses when writing coverage reports
   coverageReporters: ["text"],
 
-  // An array of file extensions your modules use
-  // moduleFileExtensions: [
-  //   "js",
-  //   "mjs",
-  //   "cjs",
-  //   "jsx",
-  //   "ts",
-  //   "tsx",
-  //   "json",
-  //   "node"
-  // ],
-
-  // Automatically reset mock state before every test
-  // resetMocks: false,
-
-  // Automatically restore mock state and implementation before every test
-  // restoreMocks: false,
-
-  // The glob patterns Jest uses to detect test files
-  // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
-  // ],
+  coveragePathIgnorePatterns: ["/node_modules/", "/src/configs/"],
 };
 
 export default createJestConfig(config);
