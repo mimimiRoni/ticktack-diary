@@ -46,7 +46,7 @@ jobs:
           echo "" >> coverage-comment.md
           echo "### ❌ Uncovered Lines" >> coverage-comment.md
           echo '```' >> coverage-comment.md
-          coverage.txt >> coverage-comment.md
+          tail coverage.txt >> coverage-comment.md
           echo '```' >> coverage-comment.md
 
       - name: Comment on PR
