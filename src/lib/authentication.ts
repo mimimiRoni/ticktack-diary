@@ -26,4 +26,6 @@ export const signUpWithEmail = async (email: string, password: string) => {
     createdAt: Timestamp.fromDate(draftUser.createdAt),
     expiresAt: Timestamp.fromDate(draftUser.expiresAt!),
   });
+
+  return userCredential;
 };

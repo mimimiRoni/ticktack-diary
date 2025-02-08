@@ -2,14 +2,22 @@ import SignUpForm from "@/components/forms/SignUpForm";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { signUpWithEmail } from "@/lib/authentication";
+import { sendEmailVerification } from "firebase/auth";
 
 jest.mock("@/lib/authentication", () => ({
   signUpWithEmail: jest.fn(),
 }));
 
+jest.mock("firebase/auth", () => ({
+  sendEmailVerification: jest.fn(),
+}));
+
 describe("SignUpForm", () => {
   beforeEach(() => {
-    jest.restoreAllMocks();
+    jest.clearAllMocks();
+    (signUpWithEmail as jest.Mock).mockResolvedValue({
+      user: {},
+    });
   });
 
   test("should render error if invalid input", async () => {
@@ -72,6 +80,27 @@ describe("SignUpForm", () => {
 
     await waitFor(() => {
       expect(button).toHaveTextContent("Sign up");
+    });
+  });
+
+  test("should call with sendEmailVerification if button clicked with valid values", async () => {
+    render(<SignUpForm />);
+
+    const mockEmail = "test@example.com";
+    const mockPassword = "Password123";
+
+    fireEvent.change(screen.getByRole("textbox", { name: "メールアドレス" }), {
+      target: { value: mockEmail },
+    });
+    fireEvent.change(screen.getByRole("textbox", { name: "パスワード" }), {
+      target: { value: mockPassword },
+    });
+
+    const button = screen.getByRole("button", { name: "Sign up" });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(sendEmailVerification).toHaveBeenCalled();
     });
   });
 });

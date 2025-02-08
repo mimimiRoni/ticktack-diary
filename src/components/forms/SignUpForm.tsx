@@ -8,6 +8,7 @@ import { signUpSchema } from "../../lib/validation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { signUpWithEmail } from "@/lib/authentication";
+import { sendEmailVerification } from "firebase/auth";
 
 const SignUpForm = () => {
   const methods = useForm({
@@ -20,7 +21,8 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: { email: string; password: string }) => {
     setLoading(true);
-    await signUpWithEmail(data.email, data.password);
+    const userCredential = await signUpWithEmail(data.email, data.password);
+    await sendEmailVerification(userCredential.user);
     router.push("/verify-email");
     setLoading(false);
   };
