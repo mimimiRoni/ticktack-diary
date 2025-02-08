@@ -34,7 +34,6 @@ const config: Config = {
   coverageReporters: ["text"],
 
   coveragePathIgnorePatterns: ["/node_modules/", "/src/configs/"],
-  cache: false,
 };
 
 export default createJestConfig(config);

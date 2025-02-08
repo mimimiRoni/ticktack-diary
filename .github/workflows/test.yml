@@ -26,6 +26,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Clear Jest cache
+        run: npm run jest -- --clearCache
+
       - name: Run Tests and Collect Coverage
         run: npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text > coverage.txt
 
