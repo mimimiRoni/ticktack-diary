@@ -13,47 +13,15 @@ permissions:
   pull-requests: write
 
 jobs:
-  coverage:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Clear Jest cache
-        run: npx jest --clearCache
-
-      - name: Run Tests and Collect Coverage
-        run: npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text > coverage.txt
-
-      - name: Extract Coverage Summary
-        run: |
-          jq '.total | { lines: .lines.pct, statements: .statements.pct, functions: .functions.pct, branches: .branches.pct }' coverage/coverage-summary.json > coverage-summary.json
-
-      - name: Format Coverage for PR Comment
-        run: |
-          echo "## 📊 Jest Test Coverage" > coverage-comment.md
-          echo "" >> coverage-comment.md
-          echo "| Metric       | Coverage %" >> coverage-comment.md
-          echo "|-------------|------------|" >> coverage-comment.md
-          echo "| Lines       | $(jq -r '.lines' coverage-summary.json)%" >> coverage-comment.md
-          echo "| Statements  | $(jq -r '.statements' coverage-summary.json)%" >> coverage-comment.md
-          echo "| Functions   | $(jq -r '.functions' coverage-summary.json)%" >> coverage-comment.md
-          echo "| Branches    | $(jq -r '.branches' coverage-summary.json)%" >> coverage-comment.md
-          echo "" >> coverage-comment.md
-          echo "### ❌ Uncovered Lines" >> coverage-comment.md
-          echo '```' >> coverage-comment.md
-          tail coverage.txt >> coverage-comment.md
-          echo '```' >> coverage-comment.md
-
-      - name: Comment on PR
-        uses: thollander/actions-comment-pull-request@v3
+      - name: Test coverage
+        uses: ArtiomTr/jest-coverage-report-action@v2
         with:
-          file-path: coverage-comment.md
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          test-script: npx jest --coverage --silent --ci --testLocationInResults --json --outputFile="report.json" --passWithNoTests
