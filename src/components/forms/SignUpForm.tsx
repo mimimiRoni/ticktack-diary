@@ -11,6 +11,7 @@ import { signUpWithEmail } from "@/lib/authentication";
 
 const SignUpForm = () => {
   const methods = useForm({
+    mode: "onChange",
     resolver: yupResolver(signUpSchema),
   });
 
