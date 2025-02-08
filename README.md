@@ -9,6 +9,8 @@ https://ticktack-diary.homironi.com/
 - [ ] ユーザー登録：メールアドレス＆パスワード
   - [x] メールアドレス＆パスワードの新規登録
   - [x] 仮登録ですよのデータをFirestoreに保存
+  - [x] FirestoreでTTLを使って24時間経っても仮登録のままならFirestoreから削除されるように
+  - [ ] Firestoreの仮ユーザーデータ削除に紐づいて、FirebaseAuth側のユーザーも削除
   - [x] メールアドレス認証メールの送信
   - [x] 「認証メール送信しました」ページに遷移
   - [ ] 既に登録済のとき
