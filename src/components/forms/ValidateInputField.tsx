@@ -30,7 +30,7 @@ const ValidateInputField = ({
         autoComplete={autocomplete}
         role="textbox"
       ></input>
-      {/* TODO: バリデーションの条件ト結果をリアルタイム表示するようにする */}
+      {/* TODO: バリデーションの条件と結果をリアルタイム表示するようにする */}
       {errors[name] && (
         <p role="alert" aria-label={name + "-input-error"}>
           {errors[name].message?.toString()}
