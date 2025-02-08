@@ -24,4 +24,4 @@ jobs:
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          test-script: npx jest --coverage --silent --ci --testLocationInResults --json --outputFile="report.json" --passWithNoTests --no-cache
+          test-script: npx jest --coverage --silent --ci --testLocationInResults --json --outputFile="report.json" --passWithNoTests
