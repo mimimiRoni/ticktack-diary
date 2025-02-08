@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Run Tests and Collect Coverage
-        run: npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text > coverage/coverage.txt
+        run: npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text > coverage.txt
 
       - name: Extract Coverage Summary
         run: |
