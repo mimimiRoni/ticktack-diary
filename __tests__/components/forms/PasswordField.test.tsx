@@ -10,7 +10,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
 test("should render input field", () => {
   render(
     <Wrapper>
-      <PasswordField name="password" label="password"></PasswordField>
+      <PasswordField label="password"></PasswordField>
     </Wrapper>,
   );
 
@@ -33,7 +33,7 @@ test("should render input field", () => {
 test("should render toggle label", () => {
   render(
     <Wrapper>
-      <PasswordField name="password" label="password"></PasswordField>
+      <PasswordField label="password"></PasswordField>
     </Wrapper>,
   );
 
