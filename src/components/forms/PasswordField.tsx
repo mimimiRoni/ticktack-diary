@@ -34,9 +34,11 @@ const PasswordField = ({ label }: PasswordFieldProps) => {
           setVisible((pre) => !pre);
         }}
       />
+      {/* TODO: おめめマークみたいなのにしたい */}
       <label>
         {visible ? "パスワードを表示しています" : "パスワードを表示する"}
       </label>
+      {/* TODO: バリデーションの条件と結果をリアルタイム表示するようにする */}
       {errors[name] && (
         <p role="alert" aria-label="password-input-error">
           {errors[name].message?.toString()}
