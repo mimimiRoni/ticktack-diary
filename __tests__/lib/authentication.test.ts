@@ -3,6 +3,7 @@ import { auth, db } from "@/configs/firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { waitFor } from "@testing-library/dom";
+import { FirebaseError } from "firebase/app";
 
 jest.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: jest.fn(),
@@ -65,5 +66,18 @@ describe("signUpWithEmail", () => {
         expiresAt: Timestamp.fromDate(mockStoreData.expiresAt!),
       });
     });
+  });
+
+  test("should throw error", async () => {
+    const error = new FirebaseError(
+      "auth/email-already-exists",
+      "The email address is already in use by another account.",
+    );
+
+    (createUserWithEmailAndPassword as jest.Mock).mockImplementation(() => {
+      throw error;
+    });
+
+    expect(signUpWithEmail(mockEmail, mockPassword)).rejects.toThrow(error);
   });
 });
