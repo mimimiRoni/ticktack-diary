@@ -3,14 +3,14 @@
 import { auth } from "@/configs/firebaseConfig";
 import { applyActionCode } from "firebase/auth";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 /**
  * メールアドレス認証を完了するためのページを表示するコンポーネント
  * @returns メールアドレス認証を完了するためのページ JSX 要素
  */
 export default function VerifiedEmail() {
-  const urlParams = new URLSearchParams(location.search);
+  const urlParams = useSearchParams();
   const oobCode = urlParams.get("oobCode"); // URLパラメータからoobCodeを取得
   const router = useRouter();
 
