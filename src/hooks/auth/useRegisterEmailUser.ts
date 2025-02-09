@@ -11,7 +11,9 @@ export const useRegisterEmailUser = () => {
     setIsLoading(true);
     try {
       const userCredential = await signUpWithEmail(email, password);
-      await sendEmailVerification(userCredential.user);
+      await sendEmailVerification(userCredential.user, {
+        url: "https://ticktack-diary.homironi.com/verified-email/",
+      });
       router.push("/verify-email");
     } catch (error) {
       if (
