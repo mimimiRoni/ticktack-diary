@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
  * @returns メールアドレス認証を完了するためのページ JSX 要素
  */
 export default function VerifiedEmail() {
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(location.search);
   const oobCode = urlParams.get("oobCode"); // URLパラメータからoobCodeを取得
   const router = useRouter();
 
