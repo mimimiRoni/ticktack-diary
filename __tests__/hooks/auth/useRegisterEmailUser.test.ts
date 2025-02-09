@@ -62,7 +62,7 @@ describe("useRegisterEmailUser", () => {
     expect(result.current.isLoading).toBe(false);
   });
 
-  test("should call router.push", async () => {
+  test("should call router.push if error", async () => {
     (signUpWithEmail as jest.Mock).mockImplementation(() => {
       throw new FirebaseError("auth/email-already-exists", "");
     });
