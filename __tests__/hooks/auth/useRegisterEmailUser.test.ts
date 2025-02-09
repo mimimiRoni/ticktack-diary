@@ -1,7 +1,9 @@
 import { useRegisterEmailUser } from "@/hooks/auth/useRegisterEmailUser";
 import { signUpWithEmail } from "@/lib/authentication";
-import { renderHook } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
+import { FirebaseError } from "firebase/app";
 import { act } from "react";
+import mockRouter from "next-router-mock";
 
 jest.mock("@/lib/authentication", () => ({
   signUpWithEmail: jest.fn(),
@@ -58,5 +60,19 @@ describe("useRegisterEmailUser", () => {
     });
 
     expect(result.current.isLoading).toBe(false);
+  });
+
+  test("should call router.push", async () => {
+    (signUpWithEmail as jest.Mock).mockImplementation(() => {
+      throw new FirebaseError("auth/email-already-exists", "");
+    });
+
+    const { result } = renderHook(() => useRegisterEmailUser());
+
+    await act(async () => {
+      await result.current.handleRegister(mockEmail, mockPassword);
+    });
+
+    expect(mockRouter).toMatchObject({ asPath: "/verify-email" });
   });
 });
