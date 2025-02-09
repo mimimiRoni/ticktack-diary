@@ -4,6 +4,7 @@ import { auth } from "@/configs/firebaseConfig";
 import { applyActionCode } from "firebase/auth";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 /**
  * メールアドレス認証を完了するためのページを表示するコンポーネント
@@ -31,19 +32,20 @@ export default function VerifiedEmail() {
       <button>
         <Link href="/timer">時間計測ページへ</Link>
       </button>
-
-      {oobCode ? (
-        <p>メールの認証を完了しています……</p>
-      ) : (
-        <div>
-          <p>
-            メールの認証に失敗しました。一度ログインすることで、認証メールの再送信ができます。
-          </p>
-          <button>
-            <Link href="/login">ログインページへ</Link>
-          </button>
-        </div>
-      )}
+      <Suspense>
+        {oobCode ? (
+          <p>メールの認証を完了しています……</p>
+        ) : (
+          <div>
+            <p>
+              メールの認証に失敗しました。一度ログインすることで、認証メールの再送信ができます。
+            </p>
+            <button>
+              <Link href="/login">ログインページへ</Link>
+            </button>
+          </div>
+        )}
+      </Suspense>
     </div>
   );
 }
