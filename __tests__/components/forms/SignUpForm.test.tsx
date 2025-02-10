@@ -14,7 +14,7 @@ jest.mock("firebase/auth", () => ({
 
 describe("SignUpForm", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
     (signUpWithEmail as jest.Mock).mockResolvedValue({
       user: {},
     });

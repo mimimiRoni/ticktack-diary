@@ -29,7 +29,7 @@ const mockEmail = "test@example.com";
 const mockPassword = "password123";
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
 });
 
 describe("signUpWithEmail", () => {
