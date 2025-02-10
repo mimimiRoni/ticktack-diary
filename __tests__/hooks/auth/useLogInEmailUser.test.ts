@@ -11,7 +11,7 @@ jest.mock("@/lib/authentication", () => ({
 
 describe("useLogInEmailUser", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   test("should have init value", () => {

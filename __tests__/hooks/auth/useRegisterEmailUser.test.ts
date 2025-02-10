@@ -18,7 +18,7 @@ describe("useRegisterEmailUser", () => {
   const mockPassword = "Password123";
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   test("should have init values", async () => {
