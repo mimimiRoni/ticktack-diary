@@ -1,3 +1,6 @@
+"use client";
+
+import LoginForm from "@/components/forms/LoginForm";
 import Link from "next/link";
 
 /**
@@ -14,6 +17,7 @@ export default function Login() {
       <button>
         <Link href="/timer">時間計測ページへ</Link>
       </button>
+      <LoginForm />
     </div>
   );
 }
