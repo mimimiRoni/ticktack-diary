@@ -1,8 +1,9 @@
 import { logInSchema } from "@/lib/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Form, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import ValidateInputField from "./ValidateInputField";
 import PasswordField from "./PasswordField";
+import { useLogInEmailUser } from "@/hooks/auth/useLogInEmailUser";
 
 const LoginForm = () => {
   const methods = useForm({
@@ -10,9 +11,15 @@ const LoginForm = () => {
     resolver: yupResolver(logInSchema),
   });
 
+  const { isLoading, handleLogIn, errorMessage } = useLogInEmailUser();
+
+  const onSubmit = async (data: { email: string; password: string }) => {
+    await handleLogIn(data.email, data.password);
+  };
+
   return (
     <FormProvider {...methods}>
-      <Form>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
         <ValidateInputField
           name="email"
           label="メールアドレス"
@@ -20,8 +27,15 @@ const LoginForm = () => {
           autocomplete="username"
         />
         <PasswordField label="パスワード" />
-        <button type="submit">Log in</button>
-      </Form>
+        <button type="submit" disabled={isLoading}>
+          Log in
+        </button>
+        {errorMessage && (
+          <p role="alert" aria-label="submit-error">
+            {errorMessage}
+          </p>
+        )}
+      </form>
     </FormProvider>
   );
 };
