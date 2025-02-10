@@ -17,3 +17,8 @@ export const signUpSchema = yup.object({
   email: emailSchema,
   password: passwordSchema,
 });
+
+export const logInSchema = yup.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
