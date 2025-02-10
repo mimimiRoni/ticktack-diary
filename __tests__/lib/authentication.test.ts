@@ -1,12 +1,16 @@
-import { signUpWithEmail } from "@/lib/authentication";
+import { logInWithEmail, signUpWithEmail } from "@/lib/authentication";
 import { auth, db } from "@/configs/firebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { waitFor } from "@testing-library/dom";
 import { FirebaseError } from "firebase/app";
 
 jest.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: jest.fn(),
+  signInWithEmailAndPassword: jest.fn(),
 }));
 
 jest.mock("@/configs/firebaseConfig", () => ({
@@ -21,14 +25,14 @@ jest.mock("firebase/firestore", () => ({
   },
 }));
 
+const mockEmail = "test@example.com";
+const mockPassword = "password123";
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe("signUpWithEmail", () => {
-  const mockEmail = "test@example.com";
-  const mockPassword = "password123";
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   test("should call createUserWithEmailAndPassword with correct arguments", () => {
     (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue({
       user: { uid: "mocked-uid" },
@@ -79,5 +83,27 @@ describe("signUpWithEmail", () => {
     });
 
     expect(signUpWithEmail(mockEmail, mockPassword)).rejects.toThrow(error);
+  });
+});
+
+describe("logInWithEmail", () => {
+  test("should call signInWithEmailAndPassword", () => {
+    logInWithEmail(mockEmail, mockPassword);
+
+    expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
+      auth,
+      mockEmail,
+      mockPassword,
+    );
+  });
+
+  test("should throw error", async () => {
+    const error = new FirebaseError("auth/user-not-found", "");
+
+    (signInWithEmailAndPassword as jest.Mock).mockImplementation(() => {
+      throw error;
+    });
+
+    expect(logInWithEmail(mockEmail, mockPassword)).rejects.toThrow(error);
   });
 });
