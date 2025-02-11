@@ -3,6 +3,7 @@ import { sendEmailVerification } from "firebase/auth";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FirebaseError } from "firebase/app";
+import { appOrigin } from "@/configs/appConfig";
 
 export const useRegisterEmailUser = () => {
   const router = useRouter();
@@ -12,7 +13,7 @@ export const useRegisterEmailUser = () => {
     try {
       const userCredential = await signUpWithEmail(email, password);
       await sendEmailVerification(userCredential.user, {
-        url: "https://ticktack-diary.homironi.com/verified-email/",
+        url: `${appOrigin}/login/`,
       });
       router.push("/verify-email");
     } catch (error) {

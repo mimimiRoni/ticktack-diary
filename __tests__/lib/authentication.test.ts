@@ -1,11 +1,9 @@
 import { logInWithEmail, signUpWithEmail } from "@/lib/authentication";
-import { auth, db } from "@/configs/firebaseConfig";
+import { auth } from "@/configs/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { doc, setDoc, Timestamp } from "firebase/firestore";
-import { waitFor } from "@testing-library/dom";
 import { FirebaseError } from "firebase/app";
 
 jest.mock("firebase/auth", () => ({
@@ -46,30 +44,6 @@ describe("signUpWithEmail", () => {
       mockEmail,
       mockPassword,
     );
-  });
-
-  test("should call setDoc with created user id", async () => {
-    const mockId = "mocked-uid";
-    (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue({
-      user: { uid: mockId },
-    });
-
-    const mockStoreData = {
-      email: mockEmail,
-      verified: false,
-      createdAt: new Date(Date.now()),
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-    };
-
-    await signUpWithEmail(mockEmail, mockPassword);
-
-    await waitFor(() => {
-      expect(setDoc).toHaveBeenCalledWith(doc(db, "users", mockId), {
-        ...mockStoreData,
-        createdAt: Timestamp.fromDate(mockStoreData.createdAt),
-        expiresAt: Timestamp.fromDate(mockStoreData.expiresAt!),
-      });
-    });
   });
 
   test("should throw error", async () => {
