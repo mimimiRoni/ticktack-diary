@@ -1,6 +1,6 @@
 import { useRegisterEmailUser } from "@/hooks/auth/useRegisterEmailUser";
 import { signUpWithEmail } from "@/lib/authentication";
-import { renderHook, waitFor } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { FirebaseError } from "firebase/app";
 import { act } from "react";
 import mockRouter from "next-router-mock";

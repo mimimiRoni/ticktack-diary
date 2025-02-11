@@ -1,11 +1,9 @@
 import { logInWithEmail, signUpWithEmail } from "@/lib/authentication";
-import { auth, db } from "@/configs/firebaseConfig";
+import { auth } from "@/configs/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { doc, setDoc, Timestamp } from "firebase/firestore";
-import { waitFor } from "@testing-library/dom";
 import { FirebaseError } from "firebase/app";
 
 jest.mock("firebase/auth", () => ({
