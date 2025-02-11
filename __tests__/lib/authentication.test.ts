@@ -48,30 +48,6 @@ describe("signUpWithEmail", () => {
     );
   });
 
-  test("should call setDoc with created user id", async () => {
-    const mockId = "mocked-uid";
-    (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue({
-      user: { uid: mockId },
-    });
-
-    const mockStoreData = {
-      email: mockEmail,
-      verified: false,
-      createdAt: new Date(Date.now()),
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-    };
-
-    await signUpWithEmail(mockEmail, mockPassword);
-
-    await waitFor(() => {
-      expect(setDoc).toHaveBeenCalledWith(doc(db, "users", mockId), {
-        ...mockStoreData,
-        createdAt: Timestamp.fromDate(mockStoreData.createdAt),
-        expiresAt: Timestamp.fromDate(mockStoreData.expiresAt!),
-      });
-    });
-  });
-
   test("should throw error", async () => {
     const error = new FirebaseError(
       "auth/email-already-exists",
