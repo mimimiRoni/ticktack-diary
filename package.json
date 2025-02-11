@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vercel env pull && next dev --turbopack",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --max-warnings 0",
     "lint-fix": "next lint --fix",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "env-pull": "npx vercel env pull"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
