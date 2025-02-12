@@ -13,7 +13,10 @@ export const useLogInEmailUser = () => {
 
     try {
       await logInWithEmail(email, password);
-      router.push("/timer");
+      const redirectPath =
+        sessionStorage.getItem("redirectPathFromLogin") ?? "/timer";
+      sessionStorage.removeItem("redirectPathFromLogin");
+      router.push(redirectPath);
     } catch (error) {
       if (
         error instanceof FirebaseError &&
