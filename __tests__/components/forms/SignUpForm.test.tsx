@@ -2,7 +2,6 @@ import SignUpForm from "@/components/forms/SignUpForm";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { signUpWithEmail } from "@/lib/authentication";
-import { sendEmailVerification } from "firebase/auth";
 
 jest.mock("@/lib/authentication", () => ({
   signUpWithEmail: jest.fn(),
