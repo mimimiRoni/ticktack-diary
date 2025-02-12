@@ -1,9 +1,7 @@
 import { signUpWithEmail } from "@/lib/authentication";
-import { sendEmailVerification } from "firebase/auth";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FirebaseError } from "firebase/app";
-import { appOrigin } from "@/configs/appConfig";
 
 export const useRegisterEmailUser = () => {
   const router = useRouter();
@@ -11,10 +9,7 @@ export const useRegisterEmailUser = () => {
   const handleRegister = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const userCredential = await signUpWithEmail(email, password);
-      await sendEmailVerification(userCredential.user, {
-        url: `${appOrigin}/login/`,
-      });
+      await signUpWithEmail(email, password);
       router.push("/verify-email");
     } catch (error) {
       if (

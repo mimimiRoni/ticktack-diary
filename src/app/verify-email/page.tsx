@@ -1,5 +1,6 @@
 "use client";
 
+import { appOrigin } from "@/configs/appConfig";
 import { auth } from "@/configs/firebaseConfig";
 import { useLoggedInUser } from "@/hooks/auth/useLoggedInUser";
 import { sendEmailVerification, signOut } from "firebase/auth";
@@ -23,7 +24,7 @@ export default function VerifyEmail() {
   const sendedVerifyEmailHandler = async () => {
     try {
       if (loginUser) {
-        await sendEmailVerification(loginUser);
+        await sendEmailVerification(loginUser, { url: `${appOrigin}/login/` });
         setSendedVerifyEmail(true);
       }
     } catch {}

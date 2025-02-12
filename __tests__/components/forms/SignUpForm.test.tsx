@@ -82,25 +82,4 @@ describe("SignUpForm", () => {
       expect(button).toHaveTextContent("Sign up");
     });
   });
-
-  test("should call with sendEmailVerification if button clicked with valid values", async () => {
-    render(<SignUpForm />);
-
-    const mockEmail = "test@example.com";
-    const mockPassword = "Password123";
-
-    fireEvent.change(screen.getByRole("textbox", { name: "メールアドレス" }), {
-      target: { value: mockEmail },
-    });
-    fireEvent.change(screen.getByRole("textbox", { name: "パスワード" }), {
-      target: { value: mockPassword },
-    });
-
-    const button = screen.getByRole("button", { name: "Sign up" });
-    fireEvent.click(button);
-
-    await waitFor(() => {
-      expect(sendEmailVerification).toHaveBeenCalled();
-    });
-  });
 });
