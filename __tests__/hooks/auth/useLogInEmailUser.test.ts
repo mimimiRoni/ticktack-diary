@@ -73,7 +73,30 @@ describe("useLogInEmailUser", () => {
     expect(result.current.errorMessage).toBe("予期せぬエラーが発生しました");
   });
 
-  test("should call router.push", async () => {
+  test("should call router.push if no redirectPath", async () => {
+    const { result } = renderHook(() => useLogInEmailUser());
+
+    sessionStorage.removeItem("redirectPathFromLogin");
+
+    await act(async () => {
+      await result.current.handleLogIn("test@test.com", "Password123");
+    });
+
+    expect(mockRouter).toMatchObject({ asPath: "/timer" });
+  });
+
+  test("should call router.push with redirect path", async () => {
+    const { result } = renderHook(() => useLogInEmailUser());
+    const redirectPath = "/test";
+    sessionStorage.setItem("redirectPathFromLogin", redirectPath);
+    await act(async () => {
+      await result.current.handleLogIn("test@test.com", "Password123");
+    });
+
+    expect(mockRouter).toMatchObject({ asPath: redirectPath });
+  });
+
+  test("should call router.push with timer", async () => {
     const { result } = renderHook(() => useLogInEmailUser());
 
     await act(async () => {
