@@ -1,5 +1,6 @@
 "use client";
 
+import StopwatchComponent from "@/modules/timer/StopwatchComponent";
 import { useLoggedInUser } from "@/hooks/auth/useLoggedInUser";
 import Link from "next/link";
 
@@ -23,6 +24,7 @@ export default function Timer() {
       <button>
         <Link href="/settings">設定ページへ</Link>
       </button>
+      <StopwatchComponent />
     </div>
   );
 }
