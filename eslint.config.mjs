@@ -54,7 +54,7 @@ const eslintConfig = [
         },
       ],
       "no-useless-assignment": "error",
-      "no-unused-vars": "error",
+      "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       eqeqeq: "error",
       "no-useless-return": "error",
       "prefer-const": "error",
