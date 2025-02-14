@@ -7,20 +7,22 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return <FormProvider {...methods}>{children}</FormProvider>;
 };
 
-test("should render input field", () => {
-  render(
-    <Wrapper>
-      <ValidateInputFiled
-        name="email"
-        label="メールアドレス"
-        type="email"
-        autocomplete="email"
-      />
-    </Wrapper>,
-  );
+describe("ValidateInputField", () => {
+  test("should render input field", () => {
+    render(
+      <Wrapper>
+        <ValidateInputFiled
+          name="email"
+          label="メールアドレス"
+          type="email"
+          autocomplete="email"
+        />
+      </Wrapper>,
+    );
 
-  const input = screen.getByRole("textbox");
-  expect(input).toBeVisible();
-  expect(input).toHaveAttribute("type", "email");
-  expect(input).toHaveAttribute("autocomplete", "email");
+    const input = screen.getByRole("textbox");
+    expect(input).toBeVisible();
+    expect(input).toHaveAttribute("type", "email");
+    expect(input).toHaveAttribute("autocomplete", "email");
+  });
 });
