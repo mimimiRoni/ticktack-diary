@@ -1,5 +1,6 @@
 import { useStopwatch } from "@/hooks/useStopwatch";
 import { renderHook, waitFor } from "@testing-library/react";
+import { act } from "react";
 
 jest.useFakeTimers();
 
@@ -17,8 +18,11 @@ describe("useStopwatch", () => {
 
   test("should start time", async () => {
     const { result } = renderHook(() => useStopwatch());
-    result.current.start();
-    jest.advanceTimersByTime(1000);
+
+    act(() => {
+      result.current.start();
+      jest.advanceTimersByTime(1000);
+    });
 
     await waitFor(() => {
       expect(result.current.isRunning).toBe(true);
@@ -28,9 +32,12 @@ describe("useStopwatch", () => {
 
   test("should stop time", () => {
     const { result } = renderHook(() => useStopwatch());
-    result.current.start();
-    jest.advanceTimersByTime(2000);
-    result.current.stop();
+
+    act(() => {
+      result.current.start();
+      jest.advanceTimersByTime(2000);
+      result.current.stop();
+    });
 
     const elapsedAfterStop = result.current.elapsedTime;
 
