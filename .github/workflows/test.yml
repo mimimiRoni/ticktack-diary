@@ -32,7 +32,7 @@ jobs:
         run: npx jest --clearCache
 
       - name: Run Tests and Collect Coverage
-        run: npm test -- --ci --coverage
+        run: npm test -- --ci --coverage --json outputFile="report.json"
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v5
