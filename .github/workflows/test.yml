@@ -6,6 +6,10 @@ on:
     branches:
       - main
       - develop
+  push:
+    branches:
+      - main
+      - develop
 
 permissions:
   checks: write
@@ -32,10 +36,16 @@ jobs:
         run: npx jest --clearCache
 
       - name: Run Tests and Collect Coverage
-        run: npm test -- --ci --coverage --json
+        run: npm test -- --ci --coverage --reporters=default --reporters=jest-junit
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: mimimiRoni/ticktack-diary
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
