@@ -1,0 +1,14 @@
+name: Run Tests With Upload Results
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+    with:
+      upload_results: true
