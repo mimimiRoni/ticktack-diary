@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Clear Jest cache
         run: npx jest --clearCache
@@ -38,3 +38,4 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          slug: mimimiRoni/ticktack-diary
