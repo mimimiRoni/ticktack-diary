@@ -31,7 +31,7 @@ const config: Config = {
   coverageDirectory: "coverage",
 
   // A list of reporter names that Jest uses when writing coverage reports
-  coverageReporters: ["text"],
+  coverageReporters: ["text", "json"],
 
   coveragePathIgnorePatterns: ["/node_modules/", "/src/configs/"],
 };

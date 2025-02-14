@@ -1,3 +1,7 @@
+[![codecov](https://codecov.io/gh/mimimiRoni/ticktack-diary/graph/badge.svg?token=JPI4WCI2RA)](https://codecov.io/gh/mimimiRoni/ticktack-diary)
+
+---
+
 学習がてら自分がほしいものを作ります。
 
 https://ticktack-diary.homironi.com/
