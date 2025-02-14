@@ -30,54 +30,56 @@ beforeEach(() => {
   jest.resetAllMocks();
 });
 
-describe("signUpWithEmail", () => {
-  test("should call createUserWithEmailAndPassword with correct arguments", () => {
-    (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue({
-      user: { uid: "mocked-uid" },
+describe("authentication", () => {
+  describe("signUpWithEmail", () => {
+    test("should call createUserWithEmailAndPassword with correct arguments", () => {
+      (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue({
+        user: { uid: "mocked-uid" },
+      });
+
+      // 呼び出される引数の確認だけなので、待つ必要はない
+      signUpWithEmail(mockEmail, mockPassword);
+
+      expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(
+        auth,
+        mockEmail,
+        mockPassword,
+      );
     });
 
-    // 呼び出される引数の確認だけなので、待つ必要はない
-    signUpWithEmail(mockEmail, mockPassword);
+    test("should throw error", async () => {
+      const error = new FirebaseError(
+        "auth/email-already-exists",
+        "The email address is already in use by another account.",
+      );
 
-    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(
-      auth,
-      mockEmail,
-      mockPassword,
-    );
+      (createUserWithEmailAndPassword as jest.Mock).mockImplementation(() => {
+        throw error;
+      });
+
+      expect(signUpWithEmail(mockEmail, mockPassword)).rejects.toThrow(error);
+    });
   });
 
-  test("should throw error", async () => {
-    const error = new FirebaseError(
-      "auth/email-already-exists",
-      "The email address is already in use by another account.",
-    );
+  describe("logInWithEmail", () => {
+    test("should call signInWithEmailAndPassword", () => {
+      logInWithEmail(mockEmail, mockPassword);
 
-    (createUserWithEmailAndPassword as jest.Mock).mockImplementation(() => {
-      throw error;
+      expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
+        auth,
+        mockEmail,
+        mockPassword,
+      );
     });
 
-    expect(signUpWithEmail(mockEmail, mockPassword)).rejects.toThrow(error);
-  });
-});
+    test("should throw error", async () => {
+      const error = new FirebaseError("auth/user-not-found", "");
 
-describe("logInWithEmail", () => {
-  test("should call signInWithEmailAndPassword", () => {
-    logInWithEmail(mockEmail, mockPassword);
+      (signInWithEmailAndPassword as jest.Mock).mockImplementation(() => {
+        throw error;
+      });
 
-    expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
-      auth,
-      mockEmail,
-      mockPassword,
-    );
-  });
-
-  test("should throw error", async () => {
-    const error = new FirebaseError("auth/user-not-found", "");
-
-    (signInWithEmailAndPassword as jest.Mock).mockImplementation(() => {
-      throw error;
+      expect(logInWithEmail(mockEmail, mockPassword)).rejects.toThrow(error);
     });
-
-    expect(logInWithEmail(mockEmail, mockPassword)).rejects.toThrow(error);
   });
 });
