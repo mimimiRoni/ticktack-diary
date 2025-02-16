@@ -1,3 +1,5 @@
+"use client";
+
 import { useLoggedInUser } from "@/hooks/auth/useLoggedInUser";
 import { useStopwatch } from "@/hooks/useStopwatch";
 import { addTimeRecord } from "@/lib/saveTimeRecord";

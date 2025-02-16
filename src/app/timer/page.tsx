@@ -1,7 +1,4 @@
-"use client";
-
 import StopwatchComponent from "@/modules/timer/StopwatchComponent";
-import { useLoggedInUser } from "@/hooks/auth/useLoggedInUser";
 import Link from "next/link";
 
 /**
@@ -9,9 +6,6 @@ import Link from "next/link";
  * @returns 時間計測ページの JSX 要素
  */
 export default function Timer() {
-  // TODO: ログインが必要なページとしてわかりやすくしておくので、あとで実際に使用する
-  useLoggedInUser();
-
   return (
     <div>
       <h1>時間計測ページ</h1>
