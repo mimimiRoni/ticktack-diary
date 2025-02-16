@@ -31,11 +31,11 @@ export const addTimeRecord = async (
   // summaries/YYYY
   const yearKey = `users/${userId}/summaries/${startTime.getFullYear()}`;
 
-  // summaries/yearly/YYYY/monthly/MM
+  // summaries/YYYY/monthly/MM
   const month = startTime.getMonth() + 1;
   const monthKey = `${yearKey}/monthly/${month.toString().padStart(2, "0")}`;
 
-  // summaries/yearly/YYYY/monthly/MM/daily/DD
+  // summaries/YYYY/monthly/MM/daily/DD
   const dateKey = `${monthKey}/daily/${startTime.getDate().toString().padStart(2, "0")}`;
 
   const summaryDocRefs = {
