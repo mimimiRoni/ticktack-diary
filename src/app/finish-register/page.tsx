@@ -29,6 +29,7 @@ export default function FinishRegister() {
       </button>
       <p>認証の完了のために、再度ログインしてください。</p>
       <p>ログインページに、下のボタンから移動してください。</p>
+      {/* TODO: 自動でログインページに遷移させてもいいかも */}
       <button>
         <Link href="/login">ログインページへ</Link>
       </button>
