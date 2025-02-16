@@ -5,21 +5,27 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false;
     }
-    match /users/{userId}{
-    allow read, update,delete: if request.auth != null && request.auth.uid == userId;
-    allow create: if request.auth != null && request.auth.uid == userId && request.resource.data.verified==false;
-    
-    function isVerifiedUpdate() {
-        return request.auth.uid == userId && request.resource.data.verified == true;
+
+    match /users/{userId} {
+      allow read: if isVerifiedUser();
+      match /timeRecords/{document=**} {
+        allow read, write: if isVerifiedUser();
+      }
+      match /summaries/{document=**} {
+        allow read, write: if isVerifiedUser();
       }
 
-      function isValidUpdate() {
-        return request.auth.uid == userId &&
-          request.resource.data.keys().hasOnly(['email', 'verified', 'createdAt']) &&
-          request.resource.data.verified == true;
+      function hasAuth(){
+        return request.auth != null;
       }
 
-      allow update: if isVerifiedUpdate() && isValidUpdate();
+      function isUser(){
+        return hasAuth() && request.auth.uid == userId;
+      }
+
+      function isVerifiedUser() {
+        return isUser() && request.auth.token.email_verified == true;
+      }
     }
   }
 }
