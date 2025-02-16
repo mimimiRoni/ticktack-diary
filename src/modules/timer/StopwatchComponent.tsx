@@ -1,17 +1,24 @@
+import { useLoggedInUser } from "@/hooks/auth/useLoggedInUser";
 import { useStopwatch } from "@/hooks/useStopwatch";
+import { addTimeRecord } from "@/lib/saveTimeRecord";
 import { useState } from "react";
 
 const StopwatchComponent = () => {
+  const { loginUser } = useLoggedInUser();
   const { elapsedTime, startTime, start, stop, reset, isRunning } =
     useStopwatch();
 
   const [record, setRecord] = useState<string | null>(null);
-  const handleOnRecord = () => {
-    // TODO: Firestoreに記録として保存する
+  const handleOnRecord = async () => {
+    if (!loginUser) {
+      return;
+    }
+
+    // TODO: 動作確認用に一旦おいておく
     const recordTime = formatTime(elapsedTime);
     const startedTime = new Date(startTime).toLocaleString("ja-JP");
     setRecord(`record ${recordTime} ${startedTime} ～`);
-
+    await addTimeRecord(loginUser.uid, new Date(startTime), elapsedTime);
     reset();
   };
 
