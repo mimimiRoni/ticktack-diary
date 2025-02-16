@@ -24,7 +24,9 @@ export default function VerifyEmail() {
   const sendedVerifyEmailHandler = async () => {
     try {
       if (loginUser) {
-        await sendEmailVerification(loginUser, { url: `${appOrigin}/login/` });
+        await sendEmailVerification(loginUser, {
+          url: `${appOrigin}/finish-register/`,
+        });
         setSendedVerifyEmail(true);
       }
     } catch {}
