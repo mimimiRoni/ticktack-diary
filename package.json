@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint --max-warnings 0",
     "lint-fix": "next lint --fix",
-    "test": "jest --passWithNoTests",
+    "test": "jest --passWithNoTests --no-cache",
     "env-pull": "npx vercel env pull"
   },
   "dependencies": {
