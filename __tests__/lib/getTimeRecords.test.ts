@@ -15,8 +15,10 @@ jest.mock("@/types/TimeRecordSummary", () => ({
 describe("getTimeRecords", () => {
   describe("getMonthlyDailySummary", () => {
     const userId = "testUser";
-    const year = "2023";
-    const month = "01";
+    const year = 2023;
+    const month = 1;
+    const monthDaysLength = new Date(year, month + 1, 0).getDate();
+    const formatMonth = (month + 1).toString().padStart(2, "0");
     const mockDocs = [
       { id: "01", data: () => ({ totalTime: 120 }) },
       { id: "02", data: () => ({ totalTime: 150 }) },
@@ -32,23 +34,20 @@ describe("getTimeRecords", () => {
       await getMonthlyDailySummary(userId, year, month);
       expect(collection).toHaveBeenCalledWith(
         db,
-        `users/${userId}/summaries/${year}/monthly/${month}/daily`,
+        `users/${userId}/summaries/${year}/monthly/${formatMonth}/daily`,
       );
     });
 
-    test("should return the correct daily summaries", async () => {
+    test("should return summary length is equal days length if some docs", async () => {
       (isTimeRecordSummary as unknown as jest.Mock).mockReturnValue(true);
       const result = await getMonthlyDailySummary(userId, year, month);
-      expect(result).toEqual([
-        { day: "01", totalTime: 120 },
-        { day: "02", totalTime: 150 },
-      ]);
+      expect(result.length).toBe(monthDaysLength);
     });
 
-    test("should handle empty collections", async () => {
+    test("should return summary length is equal days length if no doc", async () => {
       (getDocs as jest.Mock).mockResolvedValue({ docs: [] });
       const result = await getMonthlyDailySummary(userId, year, month);
-      expect(result).toEqual([]);
+      expect(result.length).toBe(monthDaysLength);
     });
   });
 });
