@@ -18,6 +18,7 @@ interface DailyChartProps {
 }
 
 export const DailyChart: React.FC<DailyChartProps> = ({ data }) => {
+  // TODO: 時間に関するUtilityメソッドとしてファイル分けする
   const formatter = (ms: number) => {
     const seconds = Math.floor(ms / 1000);
     const minutes = Math.floor(seconds / 60);
