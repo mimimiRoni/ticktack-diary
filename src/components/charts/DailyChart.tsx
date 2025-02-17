@@ -2,7 +2,6 @@ import { TimeRecordPoint } from "@/types/TimeRecordChartPoint";
 import dynamic from "next/dynamic";
 import {
   XAxis,
-  YAxis,
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
@@ -35,7 +34,6 @@ export const DailyChart: React.FC<DailyChartProps> = ({ data }) => {
       <BarChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="day" />
-        <YAxis />
         <Tooltip formatter={formatter} />
         <Bar type="monotone" dataKey="totalTime" fill="#82ca9d" />
       </BarChart>
