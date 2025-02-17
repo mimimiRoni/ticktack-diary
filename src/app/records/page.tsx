@@ -25,6 +25,7 @@ export default function Records() {
     });
   }
 
+  // TODO: 合計時間の表示
   return (
     <div>
       <h1>記録の閲覧編集ページ</h1>

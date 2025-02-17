@@ -47,6 +47,7 @@ export default StopwatchComponent;
  * ミリ秒を "hh:mm:ss" 形式の文字列にフォーマットする関数
  * @param ms - フォーマットするミリ秒
  * @returns フォーマットされた時間の文字列
+ * @todo 時間に関するUtilityメソッドとしてファイル分けする
  */
 function formatTime(ms: number) {
   const hours = Math.floor(ms / 3600000);
