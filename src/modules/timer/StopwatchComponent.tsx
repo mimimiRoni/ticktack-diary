@@ -16,6 +16,8 @@ const StopwatchComponent = () => {
       return;
     }
 
+    stop();
+
     // TODO: 動作確認用に一旦おいておく
     const recordTime = formatTime(elapsedTime);
     const startedTime = new Date(startTime).toLocaleString("ja-JP");
