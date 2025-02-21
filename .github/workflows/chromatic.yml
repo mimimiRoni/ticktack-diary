@@ -1,0 +1,29 @@
+name: "Chromatic Publish"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+# List of jobs
+jobs:
+  test:
+    # Operating System
+    runs-on: ubuntu-latest
+    # Job steps
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
+      - run: yarn
+
+      - uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
