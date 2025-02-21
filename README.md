@@ -1,4 +1,5 @@
 [![codecov](https://codecov.io/gh/mimimiRoni/ticktack-diary/graph/badge.svg?token=JPI4WCI2RA)](https://codecov.io/gh/mimimiRoni/ticktack-diary)
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://develop--67b860932a447967a0bffae2.chromatic.com)
 
 ---
 
