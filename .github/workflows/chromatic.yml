@@ -6,6 +6,10 @@ on:
     branches:
       - main
       - develop
+  push:
+    branches:
+      - main
+      - develop
 
 # List of jobs
 jobs:
