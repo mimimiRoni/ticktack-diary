@@ -1,0 +1,73 @@
+:root {
+  --color-text-white: #ededed;
+  --color-text-black: #474747;
+  @media (prefers-color-scheme: light) {
+    html {
+      color-scheme: light;
+    }
+
+    --color-base: #fcfaf6;
+    --color-green: #0a9691;
+    --color-text: var(--color-text-black);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html {
+      color-scheme: dark;
+    }
+
+    --color-base: #383838;
+    --color-green: #0a9691;
+    --color-text: var(--color-text-white);
+  }
+}
+
+$color-base: var(--color-base);
+$color-text-white: var(--color-text-white);
+$color-text-black: var(--color-text-black);
+$color-green: #0a9691;
+
+$color-text: var(--color-text);
+$color-background: $color-base;
+$color-primary: $color-green;
+$color-primary-hover: darken($color-green, 10%);
+
+$font-inter: var(--font-inter);
+$font-noto-sans-jp: var(--font-noto-sans-jp);
+
+$font-size-base: 16px;
+$font-size-largest: 3rem;
+$font-size-h1: 2.5rem;
+$font-size-h2: 2rem;
+$font-size-h3: 1.75rem;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semi-bold: 600;
+$font-weight-bold: 700;
+$font-weight-extra-bold: 800;
+$font-weight-black: 900;
+
+$border-width: 2px;
+$border-radius: 16px;
+
+:root {
+  color: $color-text;
+  background: $color-background;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  html,
+  body {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  * {
+    font-family: $font-inter, $font-noto-sans-jp, sans-serif;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

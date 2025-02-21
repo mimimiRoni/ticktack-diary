@@ -46,6 +46,7 @@
     "jest-junit": "^16.0.0",
     "next-router-mock": "^0.9.13",
     "prettier": "3.4.2",
+    "sass": "^1.85.0",
     "ts-node": "^10.9.2",
     "typescript": "^5",
     "typescript-eslint": "^8.21.0"
