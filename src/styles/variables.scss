@@ -1,0 +1,45 @@
+// ライト←→ダークによって変わる色のうち、計算が必要なもの
+$light-color-green: #0a9691;
+$dark-color-green: #04d4cb;
+
+// mixinでSCSSのコンパイル時のエラーで指定忘れに気付けるようにする
+@mixin theme-color-variables($base, $text, $color) {
+  --color-base: #{$base};
+  --color-text: #{$text};
+  --color-green: #{$color};
+  --color-green-hover: #{darken($color, 10%)};
+  --color-green-hover-bg: #{rgba($color, 0.1)};
+  --color-green-disabled: #{grayscale($color)};
+}
+
+$color-base: var(--color-base);
+$color-text-white: var(--color-text-white);
+$color-text-black: var(--color-text-black);
+
+$color-text: var(--color-text);
+$color-background: $color-base;
+
+$color-primary: var(--color-green);
+$color-primary-hover: var(--color-green-hover);
+$color-primary-hover-bg: var(--color-green-hover-bg);
+$color-primary-disabled: var(--color-green-disabled);
+
+$font-inter: var(--font-inter);
+$font-noto-sans-jp: var(--font-noto-sans-jp);
+
+$font-size-base: 16px;
+$font-size-largest: 3rem;
+$font-size-h1: 2.5rem;
+$font-size-h2: 2rem;
+$font-size-h3: 1.75rem;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semi-bold: 600;
+$font-weight-bold: 700;
+$font-weight-extra-bold: 800;
+$font-weight-black: 900;
+
+$border-width: 2px;
+$border-radius: 16px;
+
+$opacity-disabled: 0.4;
