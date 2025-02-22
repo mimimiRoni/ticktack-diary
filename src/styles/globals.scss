@@ -1,15 +1,12 @@
+$color-green: #0a9691;
+
 :root {
   --color-text-white: #ededed;
   --color-text-black: #474747;
-  @media (prefers-color-scheme: light) {
-    html {
-      color-scheme: light;
-    }
 
-    --color-base: #fcfaf6;
-    --color-green: #0a9691;
-    --color-text: var(--color-text-black);
-  }
+  --color-base: #fcfaf6;
+  --color-green: #{$color-green};
+  --color-text: var(--color-text-black);
 
   @media (prefers-color-scheme: dark) {
     html {
@@ -25,12 +22,13 @@
 $color-base: var(--color-base);
 $color-text-white: var(--color-text-white);
 $color-text-black: var(--color-text-black);
-$color-green: #0a9691;
 
 $color-text: var(--color-text);
 $color-background: $color-base;
 $color-primary: $color-green;
-$color-primary-hover: darken($color-green, 10%);
+$color-primary-hover: darken($color-primary, 10%);
+$color-primary-hover-transparent-background: rgba($color-primary, 10%);
+$color-primary-disabled: grayscale($color-primary);
 
 $font-inter: var(--font-inter);
 $font-noto-sans-jp: var(--font-noto-sans-jp);
@@ -49,6 +47,8 @@ $font-weight-black: 900;
 
 $border-width: 2px;
 $border-radius: 16px;
+
+$opacity-disabled: 0.4;
 
 :root {
   color: $color-text;
