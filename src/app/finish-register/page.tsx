@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/common/Button/Button";
 import { auth } from "@/configs/firebaseConfig";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -21,18 +22,18 @@ export default function FinishRegister() {
   return (
     <div>
       <h1>登録を完了するページ</h1>
-      <button>
+      <Button>
         <Link href="/">トップへ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/timer">時間計測ページへ</Link>
-      </button>
+      </Button>
       <p>認証の完了のために、再度ログインしてください。</p>
       <p>ログインページに、下のボタンから移動してください。</p>
       {/* TODO: 自動でログインページに遷移させてもいいかも */}
-      <button>
+      <Button>
         <Link href="/login">ログインページへ</Link>
-      </button>
+      </Button>
     </div>
   );
 }

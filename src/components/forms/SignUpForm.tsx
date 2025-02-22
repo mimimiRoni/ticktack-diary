@@ -6,6 +6,7 @@ import ValidateInputField from "./ValidateInputField";
 import PasswordField from "./PasswordField";
 import { signUpSchema } from "../../lib/validation";
 import { useRegisterEmailUser } from "@/hooks/auth/useRegisterEmailUser";
+import Button from "../common/Button/Button";
 
 const SignUpForm = () => {
   const methods = useForm({
@@ -28,9 +29,7 @@ const SignUpForm = () => {
           autocomplete="username"
         />
         <PasswordField label="パスワード" />
-        <button type="submit" disabled={isLoading}>
-          Sign up
-        </button>
+        <Button disabled={isLoading}>Sign up</Button>
       </form>
     </FormProvider>
   );

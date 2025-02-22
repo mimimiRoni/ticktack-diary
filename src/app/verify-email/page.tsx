@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/common/Button/Button";
 import { appOrigin } from "@/configs/appConfig";
 import { auth } from "@/configs/firebaseConfig";
 import { useLoggedInUser } from "@/hooks/auth/useLoggedInUser";
@@ -35,13 +36,13 @@ export default function VerifyEmail() {
   return (
     <div>
       <h1>メールアドレス認証ページ</h1>
-      <button>
+      <Button>
         <Link href="/">トップへ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/timer">時間計測ページへ</Link>
-      </button>
-      <button onClick={() => logOutHandler()}>ログアウト</button>
+      </Button>
+      <Button onClick={() => logOutHandler()}>ログアウト</Button>
       <p>
         {isSendedVerifyEmail === true
           ? "ご登録いただいたメールアドレスに、認証メールを送信しました！届かない場合は下の送信ボタンから再送信してください"
@@ -49,7 +50,7 @@ export default function VerifyEmail() {
       </p>
       <p>認証メールのリンクにアクセスしてください。</p>
       <p>メールアドレスの認証が完了します。</p>
-      <button onClick={() => sendedVerifyEmailHandler()}>認証を送信</button>
+      <Button onClick={() => sendedVerifyEmailHandler()}>認証を送信</Button>
     </div>
   );
 }

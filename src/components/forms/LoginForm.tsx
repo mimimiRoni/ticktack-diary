@@ -4,6 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import ValidateInputField from "./ValidateInputField";
 import PasswordField from "./PasswordField";
 import { useLogInEmailUser } from "@/hooks/auth/useLogInEmailUser";
+import Button from "../common/Button/Button";
 
 const LoginForm = () => {
   const methods = useForm({
@@ -27,9 +28,7 @@ const LoginForm = () => {
           autocomplete="username"
         />
         <PasswordField label="パスワード" />
-        <button type="submit" disabled={isLoading}>
-          Log in
-        </button>
+        <Button disabled={isLoading}>Log in</Button>
         {errorMessage && (
           <p role="alert" aria-label="submit-error">
             {errorMessage}

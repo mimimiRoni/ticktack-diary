@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/common/Button/Button";
 import { useLoggedInUser } from "@/hooks/auth/useLoggedInUser";
 import { useStopwatch } from "@/hooks/useStopwatch";
 import { addTimeRecord } from "@/lib/saveTimeRecord";
@@ -30,11 +31,11 @@ const StopwatchComponent = () => {
     <div>
       <p>{elapsedTime} ms</p>
       {isRunning ? (
-        <button onClick={stop}>Stop</button>
+        <Button onClick={stop}>Stop</Button>
       ) : (
-        <button onClick={start}>Start</button>
+        <Button onClick={start}>Start</Button>
       )}
-      <button onClick={handleOnRecord}>Save as record</button>
+      <Button onClick={handleOnRecord}>Save as record</Button>
       {/* TODO: Firestoreに保存するようになるまでは確認しやすいように表示しておく */}
       <p>{record}</p>
     </div>

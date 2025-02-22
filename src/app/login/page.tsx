@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/common/Button/Button";
 import LoginForm from "@/components/forms/LoginForm";
 import { auth } from "@/configs/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
@@ -30,12 +31,12 @@ export default function Login() {
   return (
     <div>
       <h1>ログインページ</h1>
-      <button>
+      <Button>
         <Link href="/">トップへ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/timer">時間計測ページへ</Link>
-      </button>
+      </Button>
       <LoginForm />
     </div>
   );
