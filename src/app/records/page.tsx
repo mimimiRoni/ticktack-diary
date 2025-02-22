@@ -1,6 +1,7 @@
 "use client";
 
 import { DailyChart } from "@/components/charts/DailyChart";
+import Button from "@/components/common/Button/Button";
 import { useLoggedInUser } from "@/hooks/auth/useLoggedInUser";
 import { getMonthlyDailySummary } from "@/lib/getTimeRecords";
 import { TimeRecordPoint } from "@/types/TimeRecordChartPoint";
@@ -29,12 +30,12 @@ export default function Records() {
   return (
     <div>
       <h1>記録の閲覧編集ページ</h1>
-      <button>
+      <Button>
         <Link href="/">トップへ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/timer">時間計測ページへ</Link>
-      </button>
+      </Button>
       {data && <h2>{`${year} ${month + 1}`}月</h2>}
       {data && <DailyChart data={data} />}
     </div>

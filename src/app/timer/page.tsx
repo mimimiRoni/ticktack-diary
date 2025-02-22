@@ -1,3 +1,4 @@
+import Button from "@/components/common/Button/Button";
 import StopwatchComponent from "@/modules/timer/StopwatchComponent";
 import Link from "next/link";
 
@@ -9,15 +10,15 @@ export default function Timer() {
   return (
     <div>
       <h1>時間計測ページ</h1>
-      <button>
+      <Button>
         <Link href="/">トップへ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/records">時間記録編集ページへ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/settings">設定ページへ</Link>
-      </button>
+      </Button>
       <StopwatchComponent />
     </div>
   );

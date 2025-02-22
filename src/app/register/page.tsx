@@ -1,3 +1,4 @@
+import Button from "@/components/common/Button/Button";
 import SignUpForm from "@/components/forms/SignUpForm";
 import Link from "next/link";
 
@@ -9,12 +10,12 @@ export default function Register() {
   return (
     <div>
       <h1>アカウント登録ページ</h1>
-      <button>
+      <Button>
         <Link href="/">トップへ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/verify-email">メール認証ページへ</Link>
-      </button>
+      </Button>
       <div>
         <SignUpForm />
       </div>

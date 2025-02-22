@@ -4,6 +4,7 @@ import { auth } from "@/configs/firebaseConfig";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Button from "@/components/common/Button/Button";
 
 /**
  * @summary フッターのコンポーネント
@@ -22,28 +23,28 @@ export default function Footer() {
     <div>
       <hr />
       <h2>TickTack-Diary作成中（動作確認用Linkまとめ）：{path}</h2>
-      <button>
+      <Button variant="fill">
         <Link href="/">トップ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/register">アカウント登録</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/login">ログイン</Link>
-      </button>
-      <button onClick={() => logOutHandler()}>ログアウト</button>
-      <button>
+      </Button>
+      <Button onClick={() => logOutHandler()}>ログアウト</Button>
+      <Button>
         <Link href="/verify-email">メール認証送信ページ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/finish-register">メール認証完了ページ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/timer">時間計測ページ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/records">時間記録閲覧ページ</Link>
-      </button>
+      </Button>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/common/Button/Button";
 import { useLoggedInUser } from "@/hooks/auth/useLoggedInUser";
 import Link from "next/link";
 
@@ -14,12 +15,12 @@ export default function Settings() {
   return (
     <div>
       <h1>設定ページ</h1>
-      <button>
+      <Button>
         <Link href="/">トップへ</Link>
-      </button>
-      <button>
+      </Button>
+      <Button>
         <Link href="/timer">時間計測ページへ</Link>
-      </button>
+      </Button>
     </div>
   );
 }
