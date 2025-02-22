@@ -5,7 +5,7 @@
 
 学習がてら自分がほしいものを作ります。
 
-https://ticktack-diary.homironi.com/
+[![TickTackDiary](https://img.shields.io/badge/TickTack_Diary-0a9691?style=flat)](https://ticktack-diary.homironi.com/)：https://ticktack-diary.homironi.com/
 
 時間とメモを記録するアプリ。  
 詳細はほぼNotion管理：https://tricolor-caravan-592.notion.site/TicktackDiary-187c163b13848090b79dda23169a9699
