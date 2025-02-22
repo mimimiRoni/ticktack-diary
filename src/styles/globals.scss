@@ -1,29 +1,37 @@
+// ライト←→ダークによって変わる色のうち、計算が必要なもの
 $light-color-green: #0a9691;
 $dark-color-green: #04d4cb;
+
+// mixinでSCSSのコンパイル時のエラーで指定忘れに気付けるようにする
+@mixin theme-color-variables($base, $text, $color) {
+  --color-base: #{$base};
+  --color-text: #{$text};
+  --color-green: #{$color};
+  --color-green-hover: #{darken($color, 10%)};
+  --color-green-hover-bg: #{rgba($color, 0.1)};
+  --color-green-disabled: #{grayscale($color)};
+}
 
 :root {
   --color-text-white: #ededed;
   --color-text-black: #474747;
 
-  --color-base: #fcfaf6;
-  --color-text: var(--color-text-black);
-
-  --color-green: #{$light-color-green};
-  --color-green-hover: #{darken($light-color-green, 10%)};
-  --color-green-hover-bg: #{rgba($light-color-green, 10%)};
-  --color-green-disabled: #{grayscale($light-color-green)};
+  @include theme-color-variables(
+    #fcfaf6,
+    var(--color-text-black),
+    $light-color-green
+  );
 
   @media (prefers-color-scheme: dark) {
     html {
       color-scheme: dark;
     }
 
-    --color-base: #383838;
-    --color-text: var(--color-text-white);
-
-    --color-green: $dark-color-green;
-    --color-green-hover: darken($dark-color-green, 10%);
-    --color-green-hover-bg: rgba($dark-color-green, 10%);
+    @include theme-color-variables(
+      #383838,
+      var(--color-text-white),
+      $dark-color-green
+    );
   }
 }
 
