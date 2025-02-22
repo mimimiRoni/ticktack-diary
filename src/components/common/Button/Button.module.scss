@@ -36,7 +36,7 @@
 .outline:hover:enabled {
   color: $color-primary-hover;
   border-color: $color-primary-hover;
-  background-color: $color-primary-hover-transparent-background;
+  background-color: $color-primary-hover-bg;
 }
 
 .outline:disabled {
@@ -52,7 +52,7 @@
 
 .text:hover:enabled {
   color: $color-primary-hover;
-  background-color: $color-primary-hover-transparent-background;
+  background-color: $color-primary-hover-bg;
 }
 
 .text:disabled {
