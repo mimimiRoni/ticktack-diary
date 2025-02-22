@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import Button from "@/components/common/Button/Button";
+import Link from "next/link";
 
 const meta = {
   component: Button,
@@ -54,7 +55,7 @@ export const LinkButton: Story = {
           <a>Link</a>
         </Button>
         <Button disabled={true}>
-          <a>Link</a>
+          <Link href="/">Link</Link>
         </Button>
       </div>
     </div>
