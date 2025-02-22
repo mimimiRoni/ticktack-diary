@@ -1,15 +1,17 @@
+$light-color-green: #0a9691;
+$dark-color-green: #04d4cb;
+
 :root {
   --color-text-white: #ededed;
   --color-text-black: #474747;
-  @media (prefers-color-scheme: light) {
-    html {
-      color-scheme: light;
-    }
 
-    --color-base: #fcfaf6;
-    --color-green: #0a9691;
-    --color-text: var(--color-text-black);
-  }
+  --color-base: #fcfaf6;
+  --color-text: var(--color-text-black);
+
+  --color-green: #{$light-color-green};
+  --color-green-hover: #{darken($light-color-green, 10%)};
+  --color-green-hover-bg: #{rgba($light-color-green, 10%)};
+  --color-green-disabled: #{grayscale($light-color-green)};
 
   @media (prefers-color-scheme: dark) {
     html {
@@ -17,20 +19,25 @@
     }
 
     --color-base: #383838;
-    --color-green: #0a9691;
     --color-text: var(--color-text-white);
+
+    --color-green: $dark-color-green;
+    --color-green-hover: darken($dark-color-green, 10%);
+    --color-green-hover-bg: rgba($dark-color-green, 10%);
   }
 }
 
 $color-base: var(--color-base);
 $color-text-white: var(--color-text-white);
 $color-text-black: var(--color-text-black);
-$color-green: #0a9691;
 
 $color-text: var(--color-text);
 $color-background: $color-base;
-$color-primary: $color-green;
-$color-primary-hover: darken($color-green, 10%);
+
+$color-primary: var(--color-green);
+$color-primary-hover: var(--color-green-hover);
+$color-primary-hover-bg: var(--color-green-hover-bg);
+$color-primary-disabled: var(--color-green-disabled);
 
 $font-inter: var(--font-inter);
 $font-noto-sans-jp: var(--font-noto-sans-jp);
@@ -49,6 +56,8 @@ $font-weight-black: 900;
 
 $border-width: 2px;
 $border-radius: 16px;
+
+$opacity-disabled: 0.4;
 
 :root {
   color: $color-text;
