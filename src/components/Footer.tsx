@@ -36,7 +36,7 @@ export default function Footer() {
       <Button>
         <Link href="/verify-email">メール認証送信ページ</Link>
       </Button>
-      <Button disabled={true}>
+      <Button>
         <Link href="/finish-register">メール認証完了ページ</Link>
       </Button>
       <Button>
