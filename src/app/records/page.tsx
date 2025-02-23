@@ -21,7 +21,6 @@ export default function Records() {
   const month = now.getMonth();
   if (loginUser && !data) {
     getMonthlyDailySummary(loginUser.uid, year, month).then((response) => {
-      // TODO: 記録が存在しない日は0でChartに表示できるようにデータを追加する
       setData(response);
     });
   }
