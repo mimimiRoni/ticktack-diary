@@ -23,8 +23,8 @@ const StopwatchComponent = () => {
     const recordTime = formatTime(elapsedTime);
     const startedTime = new Date(startTime).toLocaleString("ja-JP");
     setRecord(`record ${recordTime} ${startedTime} ～`);
-    await addTimeRecord(loginUser.uid, new Date(startTime), elapsedTime);
     reset();
+    await addTimeRecord(loginUser.uid, new Date(startTime), elapsedTime);
   };
 
   return (
@@ -36,7 +36,7 @@ const StopwatchComponent = () => {
         <Button onClick={start}>Start</Button>
       )}
       <Button onClick={handleOnRecord}>Save as record</Button>
-      {/* TODO: Firestoreに保存するようになるまでは確認しやすいように表示しておく */}
+      {/* TODO: 確認しやすいようにしばらく表示しておく */}
       <p>{record}</p>
     </div>
   );
