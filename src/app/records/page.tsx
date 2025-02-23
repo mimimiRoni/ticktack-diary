@@ -38,6 +38,22 @@ export default function Records() {
       </Button>
       {data && <h2>{`${year} ${month + 1}`}月</h2>}
       {data && <DailyChart data={data} />}
+      <hr />
+      <h2>記録の一覧</h2>
+      {/* TODO: 記録の追加、編集、削除まどができるようにし、Componentなども分割する */}
+      {data &&
+        data.reverse().map((point) => {
+          if (point.totalTime === 0) {
+            return;
+          }
+
+          return (
+            <div key={point.day}>
+              <h3>{`${point.day} 日`}</h3>
+              <p>{point.totalTime} ms</p>
+            </div>
+          );
+        })}
     </div>
   );
 }
