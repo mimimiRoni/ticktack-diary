@@ -45,7 +45,8 @@ jobs:
           gofmt -w .
           \`\`\`
           以下のファイルがフォーマットされていません:
-          - ${{ steps.gofmt.outputs.issues }}"
+          - ${{ steps.gofmt.outputs.issues }}
+          📝 **テストが実行されたコミット**: [${{ github.sha }}]($COMMIT_URL)"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
