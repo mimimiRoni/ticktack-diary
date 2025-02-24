@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // ライト←→ダークによって変わる色のうち、計算が必要なもの
 $light-color-green: #0a9691;
 $dark-color-green: #04d4cb;
@@ -7,9 +9,9 @@ $dark-color-green: #04d4cb;
   --color-base: #{$base};
   --color-text: #{$text};
   --color-green: #{$color};
-  --color-green-hover: #{darken($color, 10%)};
+  --color-green-hover: #{color.adjust($color, $lightness: -10%, $space: hsl)};
   --color-green-hover-bg: #{rgba($color, 0.1)};
-  --color-green-disabled: #{grayscale($color)};
+  --color-green-disabled: #{color.grayscale($color)};
 }
 
 $color-base: var(--color-base);

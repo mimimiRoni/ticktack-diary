@@ -2,6 +2,11 @@
   --color-text-white: #ededed;
   --color-text-black: #474747;
 
+  color: $color-text;
+  background: $color-background;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
   @include theme-color-variables(
     #fcfaf6,
     var(--color-text-black),
@@ -19,11 +24,6 @@
       $dark-color-green
     );
   }
-
-  color: $color-text;
-  background: $color-background;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
   html,
   body {
