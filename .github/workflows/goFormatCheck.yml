@@ -11,6 +11,9 @@ jobs:
   gofmt:
     name: Check gofmt
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # PR にコメントを書くための権限
 
     steps:
       - name: Checkout repository
@@ -22,8 +25,26 @@ jobs:
           go-version: "1.23.6"
 
       - name: Run gofmt
+        id: gofmt
         run: |
-          if [ -n "$(gofmt -l .)" ]; then
-            echo "Go files are not formatted. Run 'gofmt -w .' to format them."
+          FORMATTING_ISSUES=$(gofmt -l .)
+          if [ -n "$FORMATTING_ISSUES" ]; then
+            echo "gofmt failed"
+            echo "$FORMATTING_ISSUES"
+            echo "::set-output name=failed::true"
+            echo "::set-output name=issues::$FORMATTING_ISSUES"
             exit 1
           fi
+
+      - name: Comment on PR if gofmt fails
+        if: failure()
+        run: |
+          gh pr comment "$PR_URL" --body "⚠️ gofmt check failed!  
+          🚀 `gofmt -w .` を実行して修正してください！
+          以下のファイルのフォーマットを修正してください:
+          \`\`\`
+          ${{ steps.gofmt.outputs.issues }}
+          \`\`\`"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
