@@ -1,0 +1,51 @@
+name: Go Unit Tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    name: Run Go Unit Tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # PRにコメントを追加する権限
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.6"
+
+      - name: Run Unit Tests
+        id: test
+        run: |
+          mkdir -p test_results
+          go test -v ./api/... 2>&1 | tee test_results/results.txt
+          if grep -q "FAIL" test_results/results.txt; then
+            echo "Unit tests failed"
+            echo "::set-output name=failed::true"
+            exit 1
+          fi
+
+      - name: Comment on PR if tests fail
+        if: failure()
+        run: |
+          TEST_LOG=$(tail -n 20 test_results/results.txt)
+
+          gh pr comment "$PR_URL" --body "❌ **Go Unit Tests Failed!**  
+          以下のテストが失敗しました:  
+          \`\`\`
+          $TEST_LOG
+          \`\`\`
+          詳しくは[このコミット](https://github.com/${{ github.repository }}/commit/${{ github.sha }})を確認してください。"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
