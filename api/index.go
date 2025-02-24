@@ -1,10 +1,12 @@
 package handler
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode("Hello from Go!")
 }
