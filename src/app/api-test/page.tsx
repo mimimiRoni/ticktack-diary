@@ -1,6 +1,8 @@
 "use client";
 
 import Button from "@/components/common/Button/Button";
+import { auth } from "@/configs/firebaseConfig";
+import { getIdToken } from "firebase/auth";
 import { useState } from "react";
 
 /**
@@ -14,11 +16,24 @@ export default function APITest() {
     setResponse(null);
     setResponseJson(null);
 
-    const response = await fetch("/api");
+    if (auth.currentUser === null) {
+      return;
+    }
+
+    const token = await getIdToken(auth.currentUser);
+    const response = await fetch("/api", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     setResponse(response);
     if (response.ok) {
       const json = await response.json();
       setResponseJson(JSON.stringify(json));
+    } else {
+      const json = await response.json();
+      setResponseJson(`エラーが発生しました : ${JSON.stringify(json)}`);
     }
   };
 
@@ -28,7 +43,10 @@ export default function APITest() {
       <Button onClick={onClick}>fetch</Button>
       {response && (
         <div>
-          <p>status: {response.status}</p>
+          <p>res ok?: {response.ok.toString()}</p>
+          <p>
+            status: {response.status} {response.statusText}
+          </p>
           <p>url: {response.url}</p>
           {responseJson && <p>body: {responseJson}</p>}
         </div>
