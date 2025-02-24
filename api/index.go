@@ -3,7 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
-	auth "ticktack-diary/api/auth"
+	auth "ticktack-diary/api/_util/auth"
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {

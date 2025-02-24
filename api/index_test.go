@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	auth "ticktack-diary/api/auth"
+	auth "ticktack-diary/api/_util/auth"
 
 	"github.com/stretchr/testify/assert"
 )
