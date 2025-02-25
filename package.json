@@ -13,7 +13,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "go-test": "go test -v -cover ./api/...",
-    "env-pull": "npx vercel env pull"
+    "env-pull": "npx vercel env pull -y"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
