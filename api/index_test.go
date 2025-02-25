@@ -9,7 +9,9 @@ import (
 	"testing"
 
 	auth "ticktack-diary/api/_util/auth"
+	db "ticktack-diary/api/_util/db"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,32 +24,55 @@ func mockVerifyTokenInvalid(r *http.Request) (string, error) {
 	return "", fmt.Errorf("unauthorized")
 }
 
+// モックDB関数
+func mockGetDBSuccess() (*pgxpool.Pool, error) {
+	return nil, nil
+}
+
+func mockGetDBFailure() (*pgxpool.Pool, error) {
+	return nil, fmt.Errorf("db connection error")
+}
+
 // テスト用の構造体
 type testCase struct {
 	name         string
 	mockVerify   func(*http.Request) (string, error)
+	mockDB       func() (*pgxpool.Pool, error)
 	expectedCode int
 	expectedBody map[string]string
 }
 
 func TestHandler(t *testing.T) {
-	// `auth.VerifyToken` のモック化
+	// `auth.VerifyToken` と `db.GetDB` のモック化
 	originalVerifyToken := auth.VerifyToken
-	defer func() { auth.VerifyToken = originalVerifyToken }()
+	originalGetDB := db.GetDB
+	defer func() {
+		auth.VerifyToken = originalVerifyToken
+		db.GetDB = originalGetDB
+	}()
 
 	// テストケース
 	tests := []testCase{
 		{
 			name:         "正常系: 認証成功",
 			mockVerify:   mockVerifyTokenValid,
+			mockDB:       mockGetDBSuccess,
 			expectedCode: http.StatusOK,
 			expectedBody: map[string]string{"uid": "mock-uid-12345"},
 		},
 		{
 			name:         "異常系: 認証失敗",
 			mockVerify:   mockVerifyTokenInvalid,
+			mockDB:       mockGetDBSuccess,
 			expectedCode: http.StatusUnauthorized,
 			expectedBody: map[string]string{"error": "unauthorized"},
+		},
+		{
+			name:         "異常系: DB接続失敗",
+			mockVerify:   mockVerifyTokenValid,
+			mockDB:       mockGetDBFailure,
+			expectedCode: http.StatusInternalServerError,
+			expectedBody: map[string]string{"error": "db connection error"},
 		},
 	}
 
@@ -55,6 +80,7 @@ func TestHandler(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			// モック関数を適用
 			auth.VerifyToken = tt.mockVerify
+			db.GetDB = tt.mockDB
 
 			// リクエスト作成
 			req, err := http.NewRequest("GET", "/", bytes.NewBuffer(nil))

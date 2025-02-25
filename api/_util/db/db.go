@@ -13,6 +13,7 @@ var (
 	pool    *pgxpool.Pool
 	once    sync.Once
 	initErr error
+	GetDB   = GetDBImplementation
 )
 
 // InitDB は sync.Once を使って一度だけ実行される
@@ -38,7 +39,7 @@ func InitDB() error {
 }
 
 // GetDB はデータベースプールを取得する
-func GetDB() (*pgxpool.Pool, error) {
+func GetDBImplementation() (*pgxpool.Pool, error) {
 	if err := InitDB(); err != nil {
 		return nil, err
 	}
