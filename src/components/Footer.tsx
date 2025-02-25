@@ -45,6 +45,9 @@ export default function Footer() {
       <Button>
         <Link href="/records">時間記録閲覧ページ</Link>
       </Button>
+      <Button>
+        <Link href="/api-test">api-testページ</Link>
+      </Button>
     </div>
   );
 }
