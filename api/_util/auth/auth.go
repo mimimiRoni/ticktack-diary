@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"net/http"
 	"os"
@@ -15,7 +16,13 @@ var authClient *auth.Client
 var VerifyToken = VerifyTokenImplementation
 
 func init() {
-	opt := option.WithCredentialsJSON([]byte(os.Getenv("GOOGLE_APPLICATION_CREDENTIALS")))
+	decode, decodeErr := base64.StdEncoding.DecodeString(os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+	if decodeErr != nil {
+		fmt.Printf("環境変数のデコードエラー: %v\n", decodeErr)
+		return
+	}
+
+	opt := option.WithCredentialsJSON([]byte(decode))
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
 		fmt.Printf("Firebase 初期化エラー: %v\n", err)
