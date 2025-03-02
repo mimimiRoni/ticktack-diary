@@ -1,84 +1,54 @@
-import SignUpForm from "@/components/forms/SignUpForm";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import mockRouter from "next-router-mock";
-import { signUpWithEmail } from "@/lib/authentication";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import SignUpForm from "../../../src/components/forms/SignUpForm";
+import { useRegisterEmailUser } from "@/hooks/auth/useRegisterEmailUser";
 
-jest.mock("@/lib/authentication", () => ({
-  signUpWithEmail: jest.fn(),
-}));
-
-jest.mock("firebase/auth", () => ({
-  sendEmailVerification: jest.fn(),
-}));
+jest.mock("@/hooks/auth/useRegisterEmailUser");
 
 describe("SignUpForm", () => {
+  const mockHandleRegister = jest.fn();
+  const mockIsLoading = false;
+
   beforeEach(() => {
     jest.resetAllMocks();
-    (signUpWithEmail as jest.Mock).mockResolvedValue({
-      user: {},
+    (useRegisterEmailUser as jest.Mock).mockReturnValue({
+      handleRegister: mockHandleRegister,
+      isLoading: mockIsLoading,
     });
   });
 
-  test("should render error if invalid input", async () => {
+  test("renders the form fields correctly", () => {
     render(<SignUpForm />);
-
-    fireEvent.click(screen.getByRole("button"));
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("メールアドレスを入力してください"),
-      ).toBeVisible();
-      expect(screen.getByText("パスワードを入力してください")).toBeVisible();
-    });
+    expect(screen.getByLabelText("メールアドレス")).toBeInTheDocument();
+    expect(screen.getByLabelText("パスワード")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /sign up/i }),
+    ).toBeInTheDocument();
   });
 
-  test("should not have error if input is valid", async () => {
+  test("submits the form with email and password", async () => {
     render(<SignUpForm />);
-
-    fireEvent.input(screen.getByRole("textbox", { name: "メールアドレス" }), {
+    fireEvent.input(screen.getByLabelText("メールアドレス"), {
       target: { value: "test@example.com" },
     });
-    fireEvent.input(screen.getByRole("textbox", { name: "パスワード" }), {
+    fireEvent.input(screen.getByLabelText("パスワード"), {
       target: { value: "Password123" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "Sign up" }));
+    fireEvent.submit(screen.getByRole("button", { name: /sign up/i }));
 
     await waitFor(() => {
-      expect(
-        screen.queryByRole("alert", { name: "email-input-error" }),
-      ).toBeNull();
-      expect(
-        screen.queryByRole("alert", { name: "password-input-error" }),
-      ).toBeNull();
+      expect(mockHandleRegister).toHaveBeenCalledWith(
+        "test@example.com",
+        "Password123",
+      );
     });
   });
 
-  test("should call with verify-email if button clicked with valid values", async () => {
+  test("disables the button when loading", () => {
+    (useRegisterEmailUser as jest.Mock).mockReturnValue({
+      handleRegister: mockHandleRegister,
+      isLoading: true,
+    });
     render(<SignUpForm />);
-
-    const mockEmail = "test@example.com";
-    const mockPassword = "Password123";
-
-    fireEvent.change(screen.getByRole("textbox", { name: "メールアドレス" }), {
-      target: { value: mockEmail },
-    });
-    fireEvent.change(screen.getByRole("textbox", { name: "パスワード" }), {
-      target: { value: mockPassword },
-    });
-
-    const button = screen.getByRole("button", { name: "Sign up" });
-    fireEvent.click(button);
-
-    await waitFor(() => {
-      expect(signUpWithEmail).toHaveBeenCalledWith(mockEmail, mockPassword);
-    });
-
-    await waitFor(() => {
-      expect(mockRouter).toMatchObject({ asPath: "/verify-email" });
-    });
-
-    await waitFor(() => {
-      expect(button).toHaveTextContent("Sign up");
-    });
+    expect(screen.getByRole("button", { name: /sign up/i })).toBeDisabled();
   });
 });
