@@ -16,8 +16,7 @@ var (
 	GetDB   = GetDBImplementation
 )
 
-// InitDB は sync.Once を使って一度だけ実行される
-func InitDB() error {
+func initDB() error {
 	once.Do(func() {
 		databaseURL := os.Getenv("DATABASE_URL")
 		if databaseURL == "" {
@@ -31,8 +30,6 @@ func InitDB() error {
 			initErr = fmt.Errorf("failed to connect to database: %v", err)
 			return
 		}
-
-		fmt.Println("Database connection initialized successfully!")
 	})
 
 	return initErr
@@ -40,7 +37,7 @@ func InitDB() error {
 
 // GetDB はデータベースプールを取得する
 func GetDBImplementation() (*pgxpool.Pool, error) {
-	if err := InitDB(); err != nil {
+	if err := initDB(); err != nil {
 		return nil, err
 	}
 	return pool, nil

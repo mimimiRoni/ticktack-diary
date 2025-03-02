@@ -6,39 +6,51 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"sync"
 
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
 	"google.golang.org/api/option"
 )
 
-var authClient *auth.Client
-var VerifyToken = VerifyTokenImplementation
+var (
+	authClient  *auth.Client
+	once        sync.Once
+	initError   error
+	VerifyToken = VerifyTokenImplementation
+)
 
-func init() {
-	decode, decodeErr := base64.StdEncoding.DecodeString(os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"))
-	if decodeErr != nil {
-		fmt.Printf("環境変数のデコードエラー: %v\n", decodeErr)
-		return
-	}
+func initAuth() error {
+	once.Do(func() {
+		decode, decodeErr := base64.StdEncoding.DecodeString(os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+		if decodeErr != nil {
+			initError = fmt.Errorf("environment variable decoding error: %v", decodeErr)
+			return
+		}
 
-	opt := option.WithCredentialsJSON([]byte(decode))
-	app, err := firebase.NewApp(context.Background(), nil, opt)
-	if err != nil {
-		fmt.Printf("Firebase 初期化エラー: %v\n", err)
-		return
-	}
+		opt := option.WithCredentialsJSON([]byte(decode))
+		app, err := firebase.NewApp(context.Background(), nil, opt)
+		if err != nil {
+			initError = fmt.Errorf("init Firebase error: %v", err)
+			return
+		}
 
-	client, err := app.Auth(context.Background())
-	if err != nil {
-		fmt.Printf("Auth クライアントの取得エラー: %v\n", err)
-		return
-	}
+		client, err := app.Auth(context.Background())
+		if err != nil {
+			initError = fmt.Errorf("getting Auth client error: %v", err)
+			return
+		}
 
-	authClient = client
+		authClient = client
+	})
+
+	return initError
 }
 
 func VerifyTokenImplementation(r *http.Request) (string, error) {
+	if err := initAuth(); err != nil {
+		return "", err
+	}
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		return "", fmt.Errorf("authorization ヘッダーがありません")
