@@ -17,7 +17,7 @@ var (
 	authClient  *auth.Client
 	once        sync.Once
 	initError   error
-	VerifyToken = VerifyTokenImplementation
+	VerifyToken = verifyTokenImplementation
 )
 
 func initAuth() error {
@@ -47,7 +47,7 @@ func initAuth() error {
 	return initError
 }
 
-func VerifyTokenImplementation(r *http.Request) (string, error) {
+func verifyTokenImplementation(r *http.Request) (string, error) {
 	if err := initAuth(); err != nil {
 		return "", err
 	}
