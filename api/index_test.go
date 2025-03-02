@@ -1,4 +1,6 @@
-package handler
+//go:build test
+
+package handler_test
 
 import (
 	"bytes"
@@ -8,6 +10,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	handler "ticktack-diary/api"
 	auth "ticktack-diary/api/_util/auth"
 	db "ticktack-diary/api/_util/db"
 
@@ -90,7 +93,7 @@ func TestHandler(t *testing.T) {
 			rr := httptest.NewRecorder()
 
 			// ハンドラー実行
-			Handler(rr, req)
+			handler.Handler(rr, req)
 
 			// ステータスコードの検証
 			assert.Equal(t, tt.expectedCode, rr.Code)
