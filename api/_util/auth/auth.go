@@ -1,5 +1,3 @@
-//go:build !test
-
 package auth
 
 import (
@@ -15,6 +13,7 @@ import (
 )
 
 var authClient *auth.Client
+var VerifyToken = VerifyTokenImplementation
 
 func init() {
 	decode, decodeErr := base64.StdEncoding.DecodeString(os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"))
@@ -39,7 +38,7 @@ func init() {
 	authClient = client
 }
 
-func VerifyToken(r *http.Request) (string, error) {
+func VerifyTokenImplementation(r *http.Request) (string, error) {
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		return "", fmt.Errorf("authorization ヘッダーがありません")
