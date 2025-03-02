@@ -28,7 +28,7 @@ jobs:
         id: test
         run: |
           mkdir -p test_results
-          go test -v ./api/... 2>&1 | tee test_results/results.txt
+          npm run go-test 2>&1 | tee test_results/results.txt
           if grep -q "FAIL" test_results/results.txt; then
             echo "Unit tests failed"
             echo "::set-output name=failed::true"
