@@ -24,7 +24,15 @@ const StopwatchComponent = () => {
     const startedTime = new Date(startTime).toLocaleString("ja-JP");
     setRecord(`record ${recordTime} ${startedTime} ～`);
     reset();
-    await addTimeRecord(loginUser.uid, new Date(startTime), elapsedTime);
+
+    // TODO: カテゴリIDを設定できるようにする
+    // TODO: デフォルトカテゴリの追加を何処かでする
+    await addTimeRecord(
+      loginUser,
+      "00000000-0000-0000-0000-000000000000",
+      new Date(startTime),
+      elapsedTime,
+    );
   };
 
   return (

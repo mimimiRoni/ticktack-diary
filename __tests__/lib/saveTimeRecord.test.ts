@@ -1,78 +1,71 @@
-import { addTimeRecord } from "@/lib/saveTimeRecord";
-import { TimeRecord } from "@/types/TimeRecord";
-import { isTimeRecordSummary } from "@/types/TimeRecordSummary";
-import { runTransaction, Timestamp } from "firebase/firestore";
+import { addTimeRecord } from "../../src/lib/saveTimeRecord";
+import { getIdToken, User } from "firebase/auth";
 
-jest.mock("firebase/firestore", () => ({
-  runTransaction: jest.fn(),
-  doc: jest.fn(),
-  collection: jest.fn(),
-  Timestamp: { fromDate: jest.fn() },
-}));
+jest.mock("firebase/auth");
+global.fetch = jest.fn();
 
-jest.mock("@/types/TimeRecordSummary", () => ({
-  isTimeRecordSummary: jest.fn(),
-}));
+describe("addTimeRecord", () => {
+  const mockUser = { uid: "123" } as User;
+  const mockCategoryId = "category1";
+  const mockStartTime = new Date();
+  const mockElapsedTime = 1000;
 
-const mockTransactionGet = jest.fn();
-const mockTransaction = {
-  get: mockTransactionGet,
-  set: jest.fn(),
-  update: jest.fn(),
-};
-const mockRunTransaction = runTransaction as jest.Mock;
-
-const mockTimeRecord: TimeRecord = {
-  elapsedTime: 0,
-  startTime: Timestamp.fromDate(new Date()),
-};
-
-beforeEach(() => {
-  jest.resetAllMocks();
-  mockTransactionGet.mockImplementation(async () => {
-    return {
-      exists: jest.fn(),
-      data: jest.fn().mockReturnValue(mockTimeRecord),
-    };
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
-  mockRunTransaction.mockImplementation(async (_db, transactionFn) => {
-    await transactionFn({ ...mockTransaction });
+
+  test("should call getIdToken with the user", async () => {
+    (getIdToken as jest.Mock).mockResolvedValue("mockToken");
+
+    await addTimeRecord(
+      mockUser,
+      mockCategoryId,
+      mockStartTime,
+      mockElapsedTime,
+    );
+
+    expect(getIdToken).toHaveBeenCalledWith(mockUser);
   });
-});
 
-describe("saveTimeRecord", () => {
-  describe("addTimeRecord ", () => {
-    test("should call runTransaction", async () => {
-      await addTimeRecord("userId", new Date(), 0);
+  test("should call fetch with the correct parameters", async () => {
+    (getIdToken as jest.Mock).mockResolvedValue("mockToken");
 
-      expect(runTransaction).toHaveBeenCalled();
+    await addTimeRecord(
+      mockUser,
+      mockCategoryId,
+      mockStartTime,
+      mockElapsedTime,
+    );
+
+    expect(fetch).toHaveBeenCalledWith("/api/time/records", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer mockToken`,
+      },
+      body: JSON.stringify({
+        "category-id": mockCategoryId,
+        "started-at": mockStartTime.toJSON(),
+        "duration-ms": mockElapsedTime.toString(),
+      }),
     });
+  });
 
-    test("should call set", async () => {
-      await addTimeRecord("userId", new Date(), 0);
+  test("should throw an error if getIdToken fails", async () => {
+    const mockError = new Error("getIdToken error");
+    (getIdToken as jest.Mock).mockRejectedValue(mockError);
 
-      expect(mockTransaction.set).toHaveBeenCalled();
-    });
+    await expect(
+      addTimeRecord(mockUser, mockCategoryId, mockStartTime, mockElapsedTime),
+    ).rejects.toThrow(mockError);
+  });
 
-    test("should throw error", async () => {
-      mockRunTransaction.mockImplementation(() => {
-        throw new Error();
-      });
+  test("should throw an error if fetch fails", async () => {
+    (getIdToken as jest.Mock).mockResolvedValue("mockToken");
+    const mockError = new Error("fetch error");
+    (fetch as jest.Mock).mockRejectedValue(mockError);
 
-      expect(addTimeRecord("userId", new Date(), 0)).rejects.toThrow();
-    });
-
-    test("should call update", async () => {
-      mockTransactionGet.mockImplementation(async () => {
-        return {
-          exists: jest.fn().mockReturnValue(true),
-          data: jest.fn().mockReturnValue(mockTimeRecord),
-        };
-      });
-      (isTimeRecordSummary as unknown as jest.Mock).mockReturnValue(true);
-      await addTimeRecord("userId", new Date(), 0);
-
-      expect(mockTransaction.update).toHaveBeenCalled();
-    });
+    await expect(
+      addTimeRecord(mockUser, mockCategoryId, mockStartTime, mockElapsedTime),
+    ).rejects.toThrow(mockError);
   });
 });
