@@ -2,6 +2,7 @@ import { signUpWithEmail } from "@/lib/authentication";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FirebaseError } from "firebase/app";
+import { getIdToken } from "firebase/auth";
 
 export const useRegisterEmailUser = () => {
   const router = useRouter();
@@ -9,7 +10,14 @@ export const useRegisterEmailUser = () => {
   const handleRegister = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      await signUpWithEmail(email, password);
+      const userCredential = await signUpWithEmail(email, password);
+      const token = await getIdToken(userCredential.user);
+      await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       router.push("/verify-email");
     } catch (error) {
       if (

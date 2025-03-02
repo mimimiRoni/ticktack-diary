@@ -24,8 +24,8 @@ export default function APITest() {
 
     try {
       const token = await getIdToken(auth.currentUser);
-      const response = await fetch("/api", {
-        method: "GET",
+      const response = await fetch("/api/users", {
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
