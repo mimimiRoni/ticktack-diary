@@ -4,6 +4,13 @@ import { renderHook } from "@testing-library/react";
 import { FirebaseError } from "firebase/app";
 import { act } from "react";
 import mockRouter from "next-router-mock";
+import { getIdToken } from "firebase/auth";
+
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({}),
+  }),
+) as jest.Mock;
 
 jest.mock("@/lib/authentication", () => ({
   signUpWithEmail: jest.fn(),
@@ -11,7 +18,10 @@ jest.mock("@/lib/authentication", () => ({
 
 jest.mock("firebase/auth", () => ({
   sendEmailVerification: jest.fn(),
+  getIdToken: jest.fn(),
 }));
+
+const mockGetIdToken = getIdToken as jest.Mock;
 
 describe("useRegisterEmailUser", () => {
   const mockEmail = "test@test.com";
@@ -19,6 +29,7 @@ describe("useRegisterEmailUser", () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
+    mockGetIdToken.mockResolvedValue("mockToken");
   });
 
   test("should have init values", async () => {
