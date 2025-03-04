@@ -3,6 +3,7 @@ package records
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"ticktack-diary/api/_util/auth"
 	"ticktack-diary/api/_util/db"
@@ -12,7 +13,15 @@ import (
 )
 
 type TimeRecordPostRequest struct {
-	CategoryID string    `json:"category-id" validate:"uuid,required"`
+	CategoryId string    `json:"category-id" validate:"uuid,required"`
+	StartedAt  time.Time `json:"started-at" validate:"required"`
+	DurationMs int       `json:"duration-ms,string" validate:"min=1,required"`
+}
+
+type TimeRecord struct {
+	Id         string    `json:"id" validate:"uuid,required"`
+	Uid        string    `json:"uid" validate:"required"`
+	CategoryId string    `json:"category-id" validate:"uuid,required"`
 	StartedAt  time.Time `json:"started-at" validate:"required"`
 	DurationMs int       `json:"duration-ms,string" validate:"min=1,required"`
 }
@@ -59,15 +68,17 @@ func handleCreateTimeRecord(w http.ResponseWriter, r *http.Request, uid string) 
 		return
 	}
 
-	dbPool.Query(
+	var inserted TimeRecord
+	dbPool.QueryRow(
 		context.Background(),
-		"INSERT INTO time_records (uid, category_id, started_at, duration_ms) VALUES($1, $2, $3, $4)",
+		"INSERT INTO time_records (uid, category_id, started_at, duration_ms) VALUES($1, $2, $3, $4) RETURNING id, uid, category_id, started_at, duration_ms",
 		uid,
-		requestBody.CategoryID,
+		requestBody.CategoryId,
 		requestBody.StartedAt,
 		requestBody.DurationMs,
-	)
+	).Scan(&inserted.Id, &inserted.Uid, &inserted.CategoryId, &inserted.StartedAt, &inserted.DurationMs)
 
+	fmt.Println(inserted)
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(map[string]interface{}{"uid": uid})
+	json.NewEncoder(w).Encode(inserted)
 }
