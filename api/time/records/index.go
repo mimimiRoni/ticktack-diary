@@ -3,7 +3,6 @@ package records
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"ticktack-diary/api/_util/auth"
 	"ticktack-diary/api/_util/db"
@@ -78,7 +77,6 @@ func handleCreateTimeRecord(w http.ResponseWriter, r *http.Request, uid string) 
 		requestBody.DurationMs,
 	).Scan(&inserted.Id, &inserted.Uid, &inserted.CategoryId, &inserted.StartedAt, &inserted.DurationMs)
 
-	fmt.Println(inserted)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(inserted)
 }
