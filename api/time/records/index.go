@@ -12,7 +12,7 @@ import (
 )
 
 type TimeRecordPostRequest struct {
-	CategoryId string    `json:"category-id" validate:"uuid,required"`
+	CategoryId *string   `json:"category-id"`
 	StartedAt  time.Time `json:"started-at" validate:"required"`
 	DurationMs int       `json:"duration-ms,string" validate:"min=1,required"`
 }

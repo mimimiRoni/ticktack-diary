@@ -8,6 +8,9 @@ import { useState } from "react";
 
 const StopwatchComponent = () => {
   const { loginUser } = useLoggedInUser();
+
+  // TODO: カテゴリを設定できるようにするする方法を用意する
+  const [categoryId] = useState<string | null>(null);
   const { elapsedTime, startTime, start, stop, reset, isRunning } =
     useStopwatch();
 
@@ -29,7 +32,7 @@ const StopwatchComponent = () => {
     // TODO: デフォルトカテゴリの追加を何処かでする
     await addTimeRecord(
       loginUser,
-      "00000000-0000-0000-0000-000000000000",
+      categoryId,
       new Date(startTime),
       elapsedTime,
     );

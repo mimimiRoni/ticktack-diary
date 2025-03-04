@@ -42,6 +42,15 @@ var validRequestBody = map[string]string{
 	"duration-ms": "3600000",
 }
 
+// テストではDBにちゃんと接続しないので、すべて初期値が返ってくる → それが返ってくることを期待する
+var successResponseBody = map[string]interface{}{
+	"id":          "",
+	"uid":         "",
+	"category-id": "",
+	"duration-ms": "0",
+	"started-at":  "0001-01-01T00:00:00Z",
+}
+
 func TestNotAllowMethod(t *testing.T) {
 	originalVerifyToken := auth.VerifyToken
 	defer func() {
@@ -87,9 +96,19 @@ func TestHandlerPost(t *testing.T) {
 			mockGetDB:       validMockGetDB,
 			requestBody:     validRequestBody,
 			expectedCode:    http.StatusCreated,
-
-			// テストではDBにちゃんと接続しないので、すべて初期値が返ってくる → それが返ってくることを期待する
-			expectedBody: map[string]interface{}{"id": "", "uid": "", "category-id": "", "duration-ms": "0", "started-at": "0001-01-01T00:00:00Z"},
+			expectedBody:    successResponseBody,
+		},
+		{
+			name:            "should return 201 Created when nil category id",
+			mockVerifyToken: validVerifyToken,
+			mockGetDB:       validMockGetDB,
+			requestBody: map[string]interface{}{
+				"category-id": nil,
+				"started-at":  "2025-03-02T04:22:31.958Z",
+				"duration-ms": "3600000",
+			},
+			expectedCode: http.StatusCreated,
+			expectedBody: successResponseBody,
 		},
 		{
 			name: "should return failed when failed to verify token",
@@ -108,18 +127,6 @@ func TestHandlerPost(t *testing.T) {
 			requestBody:     nil,
 			expectedCode:    http.StatusBadRequest,
 			expectedBody:    map[string]interface{}{"error": "failed to request JSON decode. EOF"},
-		},
-		{
-			name:            "should return 400 Bad Request when invalid category id",
-			mockVerifyToken: validVerifyToken,
-			mockGetDB:       validMockGetDB,
-			requestBody: map[string]string{
-				"category-id": "invalid",
-				"started-at":  "2025-03-02T04:22:31.958Z",
-				"duration-ms": "3600000",
-			},
-			expectedCode: http.StatusBadRequest,
-			expectedBody: map[string]interface{}{"error": "failed to request validation. Key: 'TimeRecordPostRequest.CategoryId' Error:Field validation for 'CategoryId' failed on the 'uuid' tag"},
 		},
 		{
 			name:            "should return 400 Bad Request when invalid duration",
