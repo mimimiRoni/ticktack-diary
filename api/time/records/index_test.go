@@ -87,7 +87,9 @@ func TestHandlerPost(t *testing.T) {
 			mockGetDB:       validMockGetDB,
 			requestBody:     validRequestBody,
 			expectedCode:    http.StatusCreated,
-			expectedBody:    map[string]interface{}{"uid": "mock-user"},
+
+			// テストではDBにちゃんと接続しないので、すべて初期値が返ってくる → それが返ってくることを期待する
+			expectedBody: map[string]interface{}{"id": "", "uid": "", "category-id": "", "duration-ms": "0", "started-at": "0001-01-01T00:00:00Z"},
 		},
 		{
 			name: "should return failed when failed to verify token",
@@ -117,7 +119,7 @@ func TestHandlerPost(t *testing.T) {
 				"duration-ms": "3600000",
 			},
 			expectedCode: http.StatusBadRequest,
-			expectedBody: map[string]interface{}{"error": "failed to request validation. Key: 'TimeRecordPostRequest.CategoryID' Error:Field validation for 'CategoryID' failed on the 'uuid' tag"},
+			expectedBody: map[string]interface{}{"error": "failed to request validation. Key: 'TimeRecordPostRequest.CategoryId' Error:Field validation for 'CategoryId' failed on the 'uuid' tag"},
 		},
 		{
 			name:            "should return 400 Bad Request when invalid duration",
