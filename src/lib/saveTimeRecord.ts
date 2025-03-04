@@ -1,7 +1,7 @@
 import { getIdToken, User } from "firebase/auth";
 export const addTimeRecord = async (
   user: User,
-  categoryId: string,
+  categoryId: string | null,
   startTime: Date,
   elapsedTime: number,
 ) => {
