@@ -46,7 +46,7 @@ var validRequestBody = map[string]string{
 var successResponseBody = map[string]interface{}{
 	"id":          "",
 	"uid":         "",
-	"category-id": "",
+	"category-id": nil,
 	"duration-ms": "0",
 	"started-at":  "0001-01-01T00:00:00Z",
 }

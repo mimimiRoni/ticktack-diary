@@ -20,7 +20,7 @@ type TimeRecordPostRequest struct {
 type TimeRecord struct {
 	Id         string    `json:"id" validate:"uuid,required"`
 	Uid        string    `json:"uid" validate:"required"`
-	CategoryId string    `json:"category-id" validate:"uuid,required"`
+	CategoryId *string   `json:"category-id"`
 	StartedAt  time.Time `json:"started-at" validate:"required"`
 	DurationMs int       `json:"duration-ms,string" validate:"min=1,required"`
 }
